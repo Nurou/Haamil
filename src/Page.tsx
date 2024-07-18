@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './fonts.css';
 import './index.css';
-import { quran, Verse } from '@quranjs/api';
+import { Verse } from '@quranjs/api';
+import { useQuery } from '@tanstack/react-query';
+import { versesQueryOptions } from './main';
+import { useRef } from 'react';
+import { cn } from './utils';
 
 type KeyFunction<T> = (item: T) => string | number;
 
@@ -27,42 +31,35 @@ function renderLines(verses: Verse[]) {
     return (
       <p dir='rtl' key={lineNumber} className='flex justify-center w-full'>
         {words.map((word) => {
-          return (
-            <span key={word?.codeV2} style={{}}>
-              {word?.codeV2}
-            </span>
-          );
+          return <span key={word?.id}>{word?.codeV2}</span>;
         })}
       </p>
     );
   });
 }
 
-function App() {
-  const [verses, setVerses] = useState<Verse[] | null>(null);
+function Page() {
+  const { pageNumber } = useParams();
+  const containerRef = useRef<HTMLDivElement>(null);
+  if (!pageNumber) return null;
 
-  useEffect(() => {
-    quran.v4.verses
-      .findByPage(1, {
-        words: true,
-        wordFields: {
-          codeV2: true,
-        },
-      })
-      .then((verses) => {
-        setVerses(verses);
-      });
-  }, []);
+  const { data: verses } = useQuery(versesQueryOptions(pageNumber));
 
   if (!verses) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (
-    <div className='grid place-items-center gap-2 font-[page1] text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'>
+    <div
+      ref={containerRef}
+      className={cn(
+        `font-[page${pageNumber}]`,
+        'grid place-items-center gap-2 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'
+      )}
+    >
       {renderLines(verses)}
     </div>
   );
 }
 
-export default App;
+export default Page;
