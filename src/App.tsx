@@ -25,15 +25,7 @@ function renderLines(verses: Verse[]) {
   return Object.keys(lines).map((lineNumber) => {
     const words = lines[lineNumber];
     return (
-      <p
-        dir='rtl'
-        key={lineNumber}
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-        }}
-      >
+      <p dir='rtl' key={lineNumber} className='flex justify-center w-full'>
         {words.map((word) => {
           return (
             <span key={word?.codeV2} style={{}}>
@@ -67,7 +59,7 @@ function App() {
   }
 
   return (
-    <div className='grid place-items-center font-[page1] text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'>
+    <div className='grid place-items-center gap-2 font-[page1] text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'>
       {renderLines(verses)}
     </div>
   );
