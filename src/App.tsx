@@ -1,50 +1,7 @@
 import { useEffect, useState } from 'react';
 import './fonts.css';
 import './index.css';
-
-export interface VersesByPage {
-  id: number;
-  verse_number: number;
-  verse_key: string;
-  hizb_number: number;
-  rub_el_hizb_number: number;
-  ruku_number: number;
-  manzil_number: number;
-  sajdah_number: any;
-  text_uthmani: string;
-  chapter_id: number;
-  text_imlaei_simple: string;
-  page_number: number;
-  juz_number: number;
-  words: Word[];
-}
-
-export interface Word {
-  id: number;
-  position: number;
-  audio_url?: string;
-  char_type_name: string;
-  verse_key: string;
-  verse_id: number;
-  location: string;
-  text_uthmani: string;
-  code_v2: string;
-  page_number: number;
-  line_number: number;
-  text: string;
-  translation: Translation;
-  transliteration: Transliteration;
-}
-
-export interface Translation {
-  text: string;
-  language_name: string;
-}
-
-export interface Transliteration {
-  text?: string;
-  language_name: string;
-}
+import { quran, Verse } from '@quranjs/api';
 
 type KeyFunction<T> = (item: T) => string | number;
 
@@ -59,10 +16,10 @@ function groupBy<T>(array: T[], key: KeyFunction<T>): Record<string | number, T[
   }, {} as Record<string | number, T[]>);
 }
 
-function renderLines(verses: VersesByPage[]) {
+function renderLines(verses: Verse[]) {
   const lines = groupBy(
     verses.flatMap((v) => v.words),
-    (word) => word.line_number
+    (word) => word?.lineNumber as number
   );
 
   return Object.keys(lines).map((lineNumber) => {
@@ -79,8 +36,8 @@ function renderLines(verses: VersesByPage[]) {
       >
         {words.map((word) => {
           return (
-            <span key={word.code_v2} style={{}}>
-              {word.code_v2}
+            <span key={word?.codeV2} style={{}}>
+              {word?.codeV2}
             </span>
           );
         })}
@@ -90,23 +47,28 @@ function renderLines(verses: VersesByPage[]) {
 }
 
 function App() {
-  const [data, setData] = useState<VersesByPage[] | null>(null);
+  const [verses, setVerses] = useState<Verse[] | null>(null);
 
   useEffect(() => {
-    fetch(
-      'https://api.quran.com/api/v4/verses/by_page/1?words=true&per_page=all&fields=text_uthmani%2Cchapter_id%2Chizb_number%2Ctext_imlaei_simple&reciter=7&word_translation_language=en&word_fields=verse_key%2Cverse_id%2Cpage_number%2Clocation%2Ctext_uthmani%2Ccode_v2%2Cqpc_uthmani_hafs&mushaf=1&filter_page_words=true&from=1%3A1&to=1%3A7'
-    )
-      .then((response) => response.json())
-      .then((json) => setData(json.verses));
+    quran.v4.verses
+      .findByPage(1, {
+        words: true,
+        wordFields: {
+          codeV2: true,
+        },
+      })
+      .then((verses) => {
+        setVerses(verses);
+      });
   }, []);
 
-  if (!data) {
+  if (!verses) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className='grid place-items-center font-[page1] text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'>
-      {renderLines(data)}
+      {renderLines(verses)}
     </div>
   );
 }
