@@ -105,19 +105,7 @@ function App() {
   }
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        placeItems: 'center',
-        fontFamily: 'page1',
-        fontSize: '2rem',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        margin: 0,
-      }}
-    >
+    <div className='grid place-items-center font-[page1] text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'>
       {renderLines(data)}
     </div>
   );
