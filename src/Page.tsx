@@ -54,7 +54,7 @@ function Page() {
       ref={containerRef}
       className={cn(
         `font-[page${pageNumber}]`,
-        'grid place-items-center gap-2 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'
+        'grid place-items-center gap-3 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'
       )}
     >
       {renderLines(verses)}

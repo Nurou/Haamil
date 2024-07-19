@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 let safelist = [];
-for (let i = 0; i < 604; i++) {
+for (let i = 1; i < 605; i++) {
   safelist.push(`font-[page${i}]`);
 }
 
