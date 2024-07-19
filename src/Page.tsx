@@ -1,33 +1,59 @@
-import { useParams } from 'react-router-dom';
-import './fonts.css';
-import './index.css';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { Verse } from '@quranjs/api';
 import { useQuery } from '@tanstack/react-query';
-import { versesQueryOptions } from './main';
-import { useRef } from 'react';
+import { versesByPageQueryOptions } from './main';
 import { cn } from './utils';
+import { Dictionary, groupBy } from 'lodash';
+import { SwipeEventData, useSwipeable } from 'react-swipeable';
+import { Helmet } from 'react-helmet-async';
+import { usePrefetchAdjacentPagesData } from './hooks/usePrefetchAdjacentPagesData';
+import './fonts.css';
+import './index.css';
 
-type KeyFunction<T> = (item: T) => string | number;
+async function changePage({
+  eventData,
+  navigate,
+  pageNumber,
+}: {
+  eventData: SwipeEventData;
+  navigate: NavigateFunction;
+  pageNumber: string;
+}) {
+  if (!pageNumber) return;
 
-function groupBy<T>(array: T[], key: KeyFunction<T>): Record<string | number, T[]> {
-  return array.reduce((result, currentItem) => {
-    const groupKey = key(currentItem);
-    if (!result[groupKey]) {
-      result[groupKey] = [];
-    }
-    result[groupKey].push(currentItem);
-    return result;
-  }, {} as Record<string | number, T[]>);
+  const direction = eventData.dir;
+
+  const userSwipedLeft = direction === 'Left';
+  const userSwipedRight = direction === 'Right';
+
+  const prevPage = (parseInt(pageNumber) - 1).toString();
+  const nextPage = (parseInt(pageNumber) + 1).toString();
+
+  if (userSwipedLeft) {
+    navigate(`/${prevPage}`);
+  }
+  if (userSwipedRight) {
+    navigate(`/${nextPage}`);
+  }
 }
 
-function renderLines(verses: Verse[]) {
-  const lines = groupBy(
+function Basmalah() {
+  const BASMALAH_UNICODE = '\ufdfd';
+  return (
+    <p dir='rtl' className='flex justify-center w-full'>
+      <span>{BASMALAH_UNICODE}</span>
+    </p>
+  );
+}
+
+function ChapterLines({ verses }: { verses: Verse[] }) {
+  const linesToWordsMap = groupBy(
     verses.flatMap((v) => v.words),
     (word) => word?.lineNumber as number
   );
 
-  return Object.keys(lines).map((lineNumber) => {
-    const words = lines[lineNumber];
+  return Object.keys(linesToWordsMap).map((lineNumber) => {
+    const words = linesToWordsMap[lineNumber];
     return (
       <p dir='rtl' key={lineNumber} className='flex justify-center w-full'>
         {words.map((word) => {
@@ -38,27 +64,69 @@ function renderLines(verses: Verse[]) {
   });
 }
 
+const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
+
+function PageLines({ versesByChapter, pageNumber }: { versesByChapter: Dictionary<Verse[]>; pageNumber: string }) {
+  const chapterIds = Object.keys(versesByChapter);
+
+  const navigate = useNavigate();
+
+  const handlers = useSwipeable({
+    onSwiped: (eventData) =>
+      changePage({
+        eventData,
+        navigate,
+        pageNumber,
+      }),
+    onTap: (eventData) => {
+      console.log('User Tapped!', eventData);
+      // TODO: implement menu highlight/open in response to a tap
+    },
+  });
+
+  return chapterIds.map((chapterId) => {
+    const chapterVerses = versesByChapter[chapterId];
+    const hasFirstVerseOfChapter = chapterVerses.some((verse) => verse.verseNumber === 1);
+    const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId) && hasFirstVerseOfChapter;
+
+    return (
+      <div {...handlers} key={chapterId} className='grid gap-5 text-[clamp(0.75rem,0.75rem+0.5vw+0.5vh,3rem)]'>
+        {displayBasmalah && <Basmalah />}
+        <ChapterLines key={chapterId} verses={chapterVerses} />
+      </div>
+    );
+  });
+}
+
 function Page() {
   const { pageNumber } = useParams();
-  const containerRef = useRef<HTMLDivElement>(null);
+
   if (!pageNumber) return null;
 
-  const { data: verses } = useQuery(versesQueryOptions(pageNumber));
+  const { data: versesByPage } = useQuery(versesByPageQueryOptions(pageNumber));
 
-  if (!verses) {
+  usePrefetchAdjacentPagesData(pageNumber);
+
+  if (!versesByPage) {
     return null;
   }
 
+  const versesByChapter = groupBy(versesByPage, (verse) => verse.chapterId); // chapterId is always present
+
   return (
-    <div
-      ref={containerRef}
-      className={cn(
-        `font-[page${pageNumber}]`,
-        'grid place-items-center gap-3 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'
-      )}
-    >
-      {renderLines(verses)}
-    </div>
+    <>
+      <Helmet>
+        <title>Haamil — Page {pageNumber}</title>
+      </Helmet>
+      <div
+        className={cn(
+          `font-[page${pageNumber}]`,
+          'grid place-items-center gap-8 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'
+        )}
+      >
+        <PageLines versesByChapter={versesByChapter} pageNumber={pageNumber} />
+      </div>
+    </>
   );
 }
 

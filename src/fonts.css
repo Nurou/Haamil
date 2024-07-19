@@ -154,6 +154,11 @@
 }
 
 @font-face {
+  font-family: 'page32';
+  src: url('./assets/fahadcomplexv2imagesfont/p32.woff2');
+}
+
+@font-face {
   font-family: 'page33';
   src: url('./assets/fahadcomplexv2imagesfont/p33.woff2');
 }
@@ -164,23 +169,18 @@
 }
 
 @font-face {
-  font-family: 'page36';
-  src: url('./assets/fahadcomplexv2imagesfont/p36.woff2');
-}
-
-@font-face {
   font-family: 'page35';
   src: url('./assets/fahadcomplexv2imagesfont/p35.woff2');
 }
 
 @font-face {
-  font-family: 'page37';
-  src: url('./assets/fahadcomplexv2imagesfont/p37.woff2');
+  font-family: 'page36';
+  src: url('./assets/fahadcomplexv2imagesfont/p36.woff2');
 }
 
 @font-face {
-  font-family: 'page32';
-  src: url('./assets/fahadcomplexv2imagesfont/p32.woff2');
+  font-family: 'page37';
+  src: url('./assets/fahadcomplexv2imagesfont/p37.woff2');
 }
 
 @font-face {
@@ -281,6 +281,21 @@
 @font-face {
   font-family: 'page57';
   src: url('./assets/fahadcomplexv2imagesfont/p57.woff2');
+}
+
+@font-face {
+  font-family: 'page58';
+  src: url('./assets/fahadcomplexv2imagesfont/p58.woff2');
+}
+
+@font-face {
+  font-family: 'page59';
+  src: url('./assets/fahadcomplexv2imagesfont/p59.woff2');
+}
+
+@font-face {
+  font-family: 'page60';
+  src: url('./assets/fahadcomplexv2imagesfont/p60.woff2');
 }
 
 @font-face {
@@ -1549,11 +1564,6 @@
 }
 
 @font-face {
-  font-family: 'page314';
-  src: url('./assets/fahadcomplexv2imagesfont/p314.woff2');
-}
-
-@font-face {
   font-family: 'page315';
   src: url('./assets/fahadcomplexv2imagesfont/p315.woff2');
 }
@@ -1566,6 +1576,11 @@
 @font-face {
   font-family: 'page317';
   src: url('./assets/fahadcomplexv2imagesfont/p317.woff2');
+}
+
+@font-face {
+  font-family: 'page314';
+  src: url('./assets/fahadcomplexv2imagesfont/p314.woff2');
 }
 
 @font-face {
@@ -1639,11 +1654,6 @@
 }
 
 @font-face {
-  font-family: 'page332';
-  src: url('./assets/fahadcomplexv2imagesfont/p332.woff2');
-}
-
-@font-face {
   font-family: 'page333';
   src: url('./assets/fahadcomplexv2imagesfont/p333.woff2');
 }
@@ -1664,18 +1674,8 @@
 }
 
 @font-face {
-  font-family: 'page337';
-  src: url('./assets/fahadcomplexv2imagesfont/p337.woff2');
-}
-
-@font-face {
   font-family: 'page338';
   src: url('./assets/fahadcomplexv2imagesfont/p338.woff2');
-}
-
-@font-face {
-  font-family: 'page339';
-  src: url('./assets/fahadcomplexv2imagesfont/p339.woff2');
 }
 
 @font-face {
@@ -1689,13 +1689,13 @@
 }
 
 @font-face {
-  font-family: 'page342';
-  src: url('./assets/fahadcomplexv2imagesfont/p342.woff2');
+  font-family: 'page339';
+  src: url('./assets/fahadcomplexv2imagesfont/p339.woff2');
 }
 
 @font-face {
-  font-family: 'page343';
-  src: url('./assets/fahadcomplexv2imagesfont/p343.woff2');
+  font-family: 'page332';
+  src: url('./assets/fahadcomplexv2imagesfont/p332.woff2');
 }
 
 @font-face {
@@ -1704,13 +1704,13 @@
 }
 
 @font-face {
-  font-family: 'page345';
-  src: url('./assets/fahadcomplexv2imagesfont/p345.woff2');
+  font-family: 'page337';
+  src: url('./assets/fahadcomplexv2imagesfont/p337.woff2');
 }
 
 @font-face {
-  font-family: 'page346';
-  src: url('./assets/fahadcomplexv2imagesfont/p346.woff2');
+  font-family: 'page342';
+  src: url('./assets/fahadcomplexv2imagesfont/p342.woff2');
 }
 
 @font-face {
@@ -1744,8 +1744,13 @@
 }
 
 @font-face {
-  font-family: 'page353';
-  src: url('./assets/fahadcomplexv2imagesfont/p353.woff2');
+  font-family: 'page343';
+  src: url('./assets/fahadcomplexv2imagesfont/p343.woff2');
+}
+
+@font-face {
+  font-family: 'page346';
+  src: url('./assets/fahadcomplexv2imagesfont/p346.woff2');
 }
 
 @font-face {
@@ -1754,8 +1759,18 @@
 }
 
 @font-face {
+  font-family: 'page353';
+  src: url('./assets/fahadcomplexv2imagesfont/p353.woff2');
+}
+
+@font-face {
   font-family: 'page355';
   src: url('./assets/fahadcomplexv2imagesfont/p355.woff2');
+}
+
+@font-face {
+  font-family: 'page345';
+  src: url('./assets/fahadcomplexv2imagesfont/p345.woff2');
 }
 
 @font-face {
@@ -1979,21 +1994,6 @@
 }
 
 @font-face {
-  font-family: 'page400';
-  src: url('./assets/fahadcomplexv2imagesfont/p400.woff2');
-}
-
-@font-face {
-  font-family: 'page401';
-  src: url('./assets/fahadcomplexv2imagesfont/p401.woff2');
-}
-
-@font-face {
-  font-family: 'page402';
-  src: url('./assets/fahadcomplexv2imagesfont/p402.woff2');
-}
-
-@font-face {
   font-family: 'page403';
   src: url('./assets/fahadcomplexv2imagesfont/p403.woff2');
 }
@@ -2004,18 +2004,33 @@
 }
 
 @font-face {
+  font-family: 'page402';
+  src: url('./assets/fahadcomplexv2imagesfont/p402.woff2');
+}
+
+@font-face {
   font-family: 'page405';
   src: url('./assets/fahadcomplexv2imagesfont/p405.woff2');
 }
 
 @font-face {
-  font-family: 'page406';
-  src: url('./assets/fahadcomplexv2imagesfont/p406.woff2');
+  font-family: 'page400';
+  src: url('./assets/fahadcomplexv2imagesfont/p400.woff2');
 }
 
 @font-face {
   font-family: 'page407';
   src: url('./assets/fahadcomplexv2imagesfont/p407.woff2');
+}
+
+@font-face {
+  font-family: 'page401';
+  src: url('./assets/fahadcomplexv2imagesfont/p401.woff2');
+}
+
+@font-face {
+  font-family: 'page406';
+  src: url('./assets/fahadcomplexv2imagesfont/p406.woff2');
 }
 
 @font-face {
@@ -2299,28 +2314,13 @@
 }
 
 @font-face {
-  font-family: 'page464';
-  src: url('./assets/fahadcomplexv2imagesfont/p464.woff2');
-}
-
-@font-face {
-  font-family: 'page465';
-  src: url('./assets/fahadcomplexv2imagesfont/p465.woff2');
-}
-
-@font-face {
-  font-family: 'page466';
-  src: url('./assets/fahadcomplexv2imagesfont/p466.woff2');
-}
-
-@font-face {
   font-family: 'page467';
   src: url('./assets/fahadcomplexv2imagesfont/p467.woff2');
 }
 
 @font-face {
-  font-family: 'page468';
-  src: url('./assets/fahadcomplexv2imagesfont/p468.woff2');
+  font-family: 'page464';
+  src: url('./assets/fahadcomplexv2imagesfont/p464.woff2');
 }
 
 @font-face {
@@ -2469,11 +2469,6 @@
 }
 
 @font-face {
-  font-family: 'page60';
-  src: url('./assets/fahadcomplexv2imagesfont/p60.woff2');
-}
-
-@font-face {
   font-family: 'page498';
   src: url('./assets/fahadcomplexv2imagesfont/p498.woff2');
 }
@@ -2541,6 +2536,11 @@
 @font-face {
   font-family: 'page511';
   src: url('./assets/fahadcomplexv2imagesfont/p511.woff2');
+}
+
+@font-face {
+  font-family: 'page512';
+  src: url('./assets/fahadcomplexv2imagesfont/p512.woff2');
 }
 
 @font-face {
