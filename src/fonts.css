@@ -3002,3 +3002,8 @@
   font-family: 'page604';
   src: url('./assets/fahadcomplexv2imagesfont/p604.woff2');
 }
+
+@font-face {
+  font-family: 'surahnames';
+  src: url('./assets/sura_names.woff2');
+}
