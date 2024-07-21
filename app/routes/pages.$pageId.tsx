@@ -1,19 +1,56 @@
-import { PageNumber, quran, Verse } from '@quranjs/api';
+import { PageNumber, quran, Verse, Word } from '@quranjs/api';
 import { json, useLoaderData } from '@remix-run/react';
 import _, { Dictionary } from 'lodash';
 import { cn } from '../utils';
 import { useRef } from 'react';
 
-function getVersesByPage(pageNumber: string) {
-  return quran.v4.verses.findByPage(pageNumber as PageNumber, {
-    words: true,
-    fields: {
-      chapterId: true,
-    },
-    wordFields: {
-      codeV2: true,
-    },
-  });
+const BASE_URL_CDN = 'https://api.qurancdn.com/api/qdc'; // should probably not be used. Use V4 SDK when https://github.com/quran/quran.com-api/issues/677 is resolved
+
+async function getVersesByPage(pageNumber: string) {
+  const params = {
+    words: 'true',
+    per_page: 'all',
+    fields: 'text_uthmani,chapter_id,hizb_number,text_imlaei_simple',
+    reciter: '7',
+    word_translation_language: 'en',
+    word_fields: 'line_number,verse_key,verse_id,page_number,location,text_uthmani,code_v2,qpc_uthmani_hafs',
+    mushaf: '1',
+    filter_page_words: 'true',
+  };
+
+  const queryString = new URLSearchParams(params).toString();
+
+  const res = await fetch(`${BASE_URL_CDN}/verses/by_page/${pageNumber}?${queryString}`);
+  const data = await res.json();
+
+  return toCamelCase(data.verses); // TODO: remove when SDK in use
+
+  // OLD SDK CODE — do not remove
+  // return quran.v4.verses.findByPage(pageNumber as PageNumber, {
+  //   words: true,
+  //   perPage: 1,
+  //   fields: {
+  //     chapterId: true,
+  //   },
+  //   wordFields: {
+  //     codeV2: true,
+  //     v2Page: true,
+  //     textUthmani: true,
+  //   },
+  // });
+}
+
+function toCamelCase(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(toCamelCase);
+  } else if (obj !== null && obj.constructor === Object) {
+    return Object.keys(obj).reduce((acc, key) => {
+      const camelKey = _.camelCase(key);
+      acc[camelKey] = toCamelCase(obj[key]);
+      return acc;
+    }, {} as any);
+  }
+  return obj;
 }
 
 export const loader = async ({ params }: any) => {
@@ -66,7 +103,10 @@ function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }
     const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId) && hasFirstVerseOfChapter; // TODO: use the `basmalah` field from chapter
 
     return (
-      <div key={chapterId} className='grid gap-5 text-[clamp(0.75rem,0.75rem+0.5vw+0.5vh,3rem)]'>
+      <div
+        key={chapterId}
+        className='grid gap-3 sm:gap-5 text-[clamp(0.75rem,0.75rem+0.5vw+0.5vh,3rem)] whitespace-nowrap'
+      >
         <span dir='rtl' className='surahnames'>
           {chapterId}
         </span>
@@ -81,7 +121,7 @@ export default function Page() {
   const { versesByPage, pageId } = useLoaderData<typeof loader>();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const versesByChapter = _.groupBy(versesByPage, (verse) => verse.chapterId); // chapterId is always present
+  const versesByChapter = _.groupBy(versesByPage, (verse) => verse.chapterId);
   return (
     <div
       ref={containerRef}
