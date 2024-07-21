@@ -66,7 +66,7 @@ function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }
     const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId) && hasFirstVerseOfChapter; // TODO: use the `basmalah` field from chapter
 
     return (
-      <div key={chapterId} className='grid gap-3 '>
+      <div key={chapterId} className='grid gap-5 text-[clamp(0.75rem,0.75rem+0.5vw+0.5vh,3rem)]'>
         <span dir='rtl' className='surahnames'>
           {chapterId}
         </span>
