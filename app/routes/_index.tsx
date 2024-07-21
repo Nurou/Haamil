@@ -1,6 +1,6 @@
 import { ChapterId, PageNumber, quran } from '@quranjs/api';
 import { json, type MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData } from '@remix-run/react';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'New Remix App' }, { name: 'description', content: 'Welcome to Remix!' }];
@@ -21,12 +21,17 @@ export default function Index() {
     <div className='font-sans p-4'>
       <ul className='list-disc mt-4 pl-6 space-y-2'>
         {chapters.map((chapter) => {
+          const firstPageOfChapter = chapter.pages[0];
           return (
-            <li key={chapter.id}>
-              <a className='text-blue-700 underline visited:text-purple-900' href={`/pages/${chapter.pages[0]}`}>
-                {chapter.nameSimple}
-              </a>
-            </li>
+            <Link
+              key={chapter.id}
+              prefetch='intent'
+              reloadDocument
+              to={`/pages/${firstPageOfChapter}`}
+              className='text-blue-700 underline visited:text-purple-900'
+            >
+              {chapter.nameSimple}
+            </Link>
           );
         })}
       </ul>
