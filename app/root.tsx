@@ -37,6 +37,16 @@ export const meta = ({
       rel: 'stylesheet',
       href: data.pageFontCssUrl,
     },
+    params.pageId && {
+      tagName: 'link',
+      rel: 'prefetch',
+      href: `/pages/${parseInt(params.pageId) - 1}`,
+    },
+    params.pageId && {
+      tagName: 'link',
+      rel: 'prefetch',
+      href: `/pages/${parseInt(params.pageId) + 1}`,
+    },
   ].filter(Boolean);
 };
 
