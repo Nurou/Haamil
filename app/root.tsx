@@ -1,4 +1,4 @@
-import { json, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useParams } from '@remix-run/react';
+import { json, Links, Meta, Outlet, Scripts, ScrollRestoration, useParams } from '@remix-run/react';
 import { LinksFunction } from '@remix-run/node';
 import styles from './index.css?url';
 
@@ -60,7 +60,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );

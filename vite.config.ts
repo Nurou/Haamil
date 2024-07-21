@@ -12,6 +12,7 @@ export default defineConfig({
         v3_throwAbortReason: true,
       },
       presets: [vercelPreset()],
+      // ssr: false, // https://remix.run/docs/en/main/guides/spa-mode
     }),
     tsconfigPaths(),
   ],

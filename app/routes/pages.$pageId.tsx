@@ -1,7 +1,9 @@
 import { PageNumber, quran, Verse, Word } from '@quranjs/api';
-import { json, useLoaderData } from '@remix-run/react';
+import { json, useLoaderData, useParams } from '@remix-run/react';
 import _, { Dictionary } from 'lodash';
 import { cn } from '../utils';
+import { useSwipeable } from 'react-swipeable';
+import { SwipeEventData } from 'react-swipeable/es/types';
 
 const BASE_URL_CDN = 'https://api.qurancdn.com/api/qdc'; // should probably not be used. Use V4 SDK when https://github.com/quran/quran.com-api/issues/677 is resolved
 
@@ -52,13 +54,26 @@ function toCamelCase(obj: any): any {
   return obj;
 }
 
+function changePage(eventData: SwipeEventData, pageId?: string) {
+  if (!pageId) return;
+
+  const direction = eventData.dir;
+  if (direction === 'Left') {
+    window.location.href = `/pages/${parseInt(pageId) - 1}`;
+  }
+  if (direction === 'Right') {
+    window.location.href = `/pages/${parseInt(pageId) + 1}`;
+  }
+}
+
 export const loader = async ({ params }: any) => {
   const versesByPage = await getVersesByPage(params.pageId);
+
   return json(
     { versesByPage, pageId: params.pageId },
     {
       headers: {
-        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Cache-Control': 'public, s-max-age=31536000, immutable',
       },
     }
   );
@@ -95,6 +110,17 @@ const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
 
 function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
   const chapterIds = Object.keys(versesByChapter);
+  const params = useParams<{
+    pageId: string;
+  }>();
+
+  const handlers = useSwipeable({
+    onSwiped: (eventData) => changePage(eventData, params.pageId),
+    onTap: (eventData) => {
+      console.log('User Tapped!', eventData);
+      // TODO: implement menu highlight/open in response to a tap
+    },
+  });
 
   return chapterIds.map((chapterId) => {
     const chapterVerses = versesByChapter[chapterId];
@@ -103,6 +129,7 @@ function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }
 
     return (
       <div
+        {...handlers}
         key={chapterId}
         className='grid gap-3 sm:gap-5 text-[clamp(0.75rem,0.75rem+0.5vw+0.5vh,3rem)] whitespace-nowrap'
       >
