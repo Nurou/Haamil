@@ -1,31 +1,36 @@
 import { json, Links, Meta, Outlet, Scripts, ScrollRestoration, useParams } from '@remix-run/react';
 import './index.css';
 
-export async function loader({ params }: { params: { pageId: string } }) {
+export const loader = async ({ params }: { params: { pageId?: string } }) => {
+  if (!params.pageId) {
+    return null;
+  }
   const pageFontCssUrl: typeof import('*?url') = await import(`./font-css/page${params.pageId}.css?url`);
-  return json({ pageFontCssUrl: pageFontCssUrl.default });
-}
+  return json({ pageFontCssUrl: pageFontCssUrl?.default });
+};
 
-export function meta({
+export const meta = ({
   params,
   data,
 }: {
-  params: { pageId: string };
-  data: {
-    pageFontCssUrl: string;
+  params: { pageId?: string };
+  data?: {
+    pageFontCssUrl?: string;
   };
-}) {
-    return [
+}) => {
+  const title = params.pageId ? `Haamil - chapter ${params.pageId}` : 'Haamil';
+
+  return [
     {
-      title: `Haamil - chapter ${params.pageId}`,
+      title,
     },
-    {
+    data?.pageFontCssUrl && {
       tagName: 'link',
       rel: 'stylesheet',
       href: data.pageFontCssUrl,
     },
-  ];
-}
+  ].filter(Boolean);
+};
 
 /* "Root Route". It's the first component in the UI that renders, so it typically contains the global layout for the page. */
 export function Layout({ children }: { children: React.ReactNode }) {
