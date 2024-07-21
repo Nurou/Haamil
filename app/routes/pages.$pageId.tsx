@@ -2,7 +2,6 @@ import { PageNumber, quran, Verse, Word } from '@quranjs/api';
 import { json, useLoaderData } from '@remix-run/react';
 import _, { Dictionary } from 'lodash';
 import { cn } from '../utils';
-import { useRef } from 'react';
 
 const BASE_URL_CDN = 'https://api.qurancdn.com/api/qdc'; // should probably not be used. Use V4 SDK when https://github.com/quran/quran.com-api/issues/677 is resolved
 
@@ -119,12 +118,10 @@ function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }
 
 export default function Page() {
   const { versesByPage, pageId } = useLoaderData<typeof loader>();
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const versesByChapter = _.groupBy(versesByPage, (verse) => verse.chapterId);
   return (
     <div
-      ref={containerRef}
       className={cn(
         `font-[page${pageId}]`,
         'grid place-items-center gap-8 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'

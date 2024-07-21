@@ -1,5 +1,6 @@
-import { json, Links, Meta, Outlet, Scripts, ScrollRestoration, useParams } from '@remix-run/react';
-import './index.css';
+import { json, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useParams } from '@remix-run/react';
+import { LinksFunction } from '@remix-run/node';
+import styles from './index.css?url';
 
 export const loader = async ({ params }: { params: { pageId?: string } }) => {
   if (!params.pageId) {
@@ -39,6 +40,10 @@ export const meta = ({
   ].filter(Boolean);
 };
 
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: styles }];
+};
+
 /* "Root Route". It's the first component in the UI that renders, so it typically contains the global layout for the page. */
 export function Layout({ children }: { children: React.ReactNode }) {
   const params = useParams();
@@ -55,6 +60,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );
