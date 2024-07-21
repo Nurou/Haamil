@@ -4,22 +4,27 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
+    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "start": "remix-serve ./build/server/index.js",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@quranjs/api": "^1.7.1",
+    "@remix-run/node": "^2.10.3",
+    "@remix-run/react": "^2.10.3",
+    "@remix-run/serve": "^2.10.3",
     "@tanstack/react-query": "^5.51.9",
     "clsx": "^2.1.1",
+    "isbot": "4",
     "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.25.0",
     "tailwind-merge": "^2.4.0"
   },
   "devDependencies": {
+    "@remix-run/dev": "^2.10.3",
     "@tanstack/eslint-plugin-query": "^5.51.10",
     "@types/lodash": "^4.17.7",
     "@types/react": "^18.3.3",
@@ -34,6 +39,7 @@
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.2.2",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vite-tsconfig-paths": "^4.3.2"
   }
 }
