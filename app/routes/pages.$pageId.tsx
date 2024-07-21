@@ -18,7 +18,14 @@ function getVersesByPage(pageNumber: string) {
 
 export const loader = async ({ params }: any) => {
   const versesByPage = await getVersesByPage(params.pageId);
-  return json({ versesByPage, pageId: params.pageId });
+  return json(
+    { versesByPage, pageId: params.pageId },
+    {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    }
+  );
 };
 
 function Basmalah() {
@@ -59,7 +66,7 @@ function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }
     const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId) && hasFirstVerseOfChapter; // TODO: use the `basmalah` field from chapter
 
     return (
-      <div key={chapterId} className='grid gap-3'>
+      <div key={chapterId} className='grid gap-3 '>
         <span dir='rtl' className='surahnames'>
           {chapterId}
         </span>

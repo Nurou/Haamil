@@ -6,7 +6,14 @@ export const loader = async ({ params }: { params: { pageId?: string } }) => {
     return null;
   }
   const pageFontCssUrl: typeof import('*?url') = await import(`./font-css/page${params.pageId}.css?url`);
-  return json({ pageFontCssUrl: pageFontCssUrl?.default });
+  return json(
+    { pageFontCssUrl: pageFontCssUrl?.default },
+    {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    }
+  );
 };
 
 export const meta = ({
