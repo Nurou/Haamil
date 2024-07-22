@@ -12,7 +12,9 @@ const queryClient = new QueryClient();
 
 const BASE_URL_CDN = 'https://api.qurancdn.com/api/qdc'; // should probably not be used. Use V4 SDK when https://github.com/quran/quran.com-api/issues/677 is resolved
 
-async function getVersesByPage(pageNumber: string) {
+async function getVersesByPage(pageNumber?: string) {
+  if (!pageNumber) return;
+
   const params = {
     words: 'true',
     per_page: 'all',
@@ -32,6 +34,7 @@ async function getVersesByPage(pageNumber: string) {
   return toCamelCase(data.verses); // TODO: remove when SDK in use
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toCamelCase(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map(toCamelCase);
@@ -40,15 +43,17 @@ function toCamelCase(obj: any): any {
       const camelKey = _.camelCase(key);
       acc[camelKey] = toCamelCase(obj[key]);
       return acc;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }, {} as any);
   }
   return obj;
 }
 
-export const versesByPageQueryOptions = (pageNumber: string) =>
+export const versesByPageQueryOptions = (pageNumber?: string) =>
   queryOptions({
     queryKey: ['verses', pageNumber],
     queryFn: () => getVersesByPage(pageNumber),
+    enabled: !!pageNumber,
     // OLD SDK CODE — do not remove
     // queryFn: () =>
     //   quran.v4.verses.findByPage(pageNumber as PageNumber, {

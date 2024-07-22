@@ -20,7 +20,7 @@ function getFontsToAdd(prevPage: number, nextPage: number): FontInfo[] {
   return fonts;
 }
 
-export const usePrefetchAdjacentPagesData = (currentPageNumber: string) => {
+export const usePrefetchAdjacentPagesData = (currentPageNumber = '1') => {
   const [prevPage, nextPage] = [parseInt(currentPageNumber) - 1, parseInt(currentPageNumber) + 1].filter(
     (n) => n > FIRST_PAGE && n < LAST_PAGE
   );
@@ -47,7 +47,7 @@ export const usePrefetchAdjacentPagesData = (currentPageNumber: string) => {
     };
 
     loadFonts();
-  }, []);
+  }, [nextPage, prevPage]);
 
   return null;
 };

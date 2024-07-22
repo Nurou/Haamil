@@ -101,13 +101,11 @@ function PageLines({ versesByChapter, pageNumber }: { versesByChapter: Dictionar
 function Page() {
   const { pageNumber } = useParams();
 
-  if (!pageNumber) return null;
-
   const { data: versesByPage } = useQuery(versesByPageQueryOptions(pageNumber));
 
   usePrefetchAdjacentPagesData(pageNumber);
 
-  if (!versesByPage) {
+  if (!versesByPage || !pageNumber) {
     return null;
   }
 
