@@ -90,7 +90,7 @@ function PageLines({ versesByChapter, pageNumber }: { versesByChapter: Dictionar
     const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId) && hasFirstVerseOfChapter;
 
     return (
-      <div {...handlers} key={chapterId} className='grid gap-5 text-[clamp(0.75rem,0.75rem+0.5vw+0.5vh,3rem)]'>
+      <div {...handlers} key={chapterId} className={cn('grid gap-2', 'sm:text-[1.5em] md:text-[2em]')}>
         {displayBasmalah && <Basmalah />}
         <ChapterLines key={chapterId} verses={chapterVerses} />
       </div>
@@ -112,19 +112,20 @@ function Page() {
   const versesByChapter = groupBy(versesByPage, (verse) => verse.chapterId); // chapterId is always present
 
   return (
-    <>
+    <div className='grid place-content-center h-screen whitespace-nowrap'>
       <Helmet>
         <title>Haamil — Page {pageNumber}</title>
       </Helmet>
       <div
         className={cn(
-          `font-[page${pageNumber}]`,
-          'grid place-items-center gap-8 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'
+          `font-[page${pageNumber}]`
+          // 'grid place-items-center gap-8 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'
+          // 'grid place-items-center gap-8 text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-0'
         )}
       >
         <PageLines versesByChapter={versesByChapter} pageNumber={pageNumber} />
       </div>
-    </>
+    </div>
   );
 }
 
