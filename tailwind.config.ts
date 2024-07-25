@@ -9,8 +9,8 @@ for (let i = START_PAGE_IDX; i < END_PAGE_IDX; i++) {
 }
 
 const config = {
-  darkMode: ['class'],
   safelist,
+  darkMode: ['class'],
   content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
   prefix: '',
   theme: {
@@ -78,7 +78,7 @@ const config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 } satisfies Config;
 
 export default config;

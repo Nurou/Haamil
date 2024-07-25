@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Page from './Page.tsx';
+import Page from './page.tsx';
 import './index.css';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
-import { quran, ChapterId } from '@quranjs/api';
+import { quran, ChapterId, Verse } from '@quranjs/api';
 import { QueryClient, QueryClientProvider, queryOptions } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import _ from 'lodash';
+import { Layout } from './components/layout.tsx';
 
 const queryClient = new QueryClient();
 
 const BASE_URL_CDN = 'https://api.qurancdn.com/api/qdc'; // should probably not be used. Use V4 SDK when https://github.com/quran/quran.com-api/issues/677 is resolved
 
-async function getVersesByPage(pageNumber?: string) {
+async function getVersesByPage(pageNumber?: string): Promise<Verse[]> {
   if (!pageNumber) return;
 
   const params = {
@@ -29,6 +30,11 @@ async function getVersesByPage(pageNumber?: string) {
   const queryString = new URLSearchParams(params).toString();
 
   const res = await fetch(`${BASE_URL_CDN}/verses/by_page/${pageNumber}?${queryString}`);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch verses by page.');
+  }
+
   const data = await res.json();
 
   return toCamelCase(data.verses); // TODO: remove when SDK in use
@@ -49,7 +55,7 @@ function toCamelCase(obj: any): any {
   return obj;
 }
 
-export const versesByPageQueryOptions = (pageNumber?: string) =>
+export const versesByPageQueryOptions = (pageNumber = '1') =>
   queryOptions({
     queryKey: ['verses', pageNumber],
     queryFn: () => getVersesByPage(pageNumber),
@@ -76,6 +82,20 @@ export const chapterByIdQueryOptions = (id?: string) =>
     enabled: !!id,
   });
 
+export const partsQueryOptions = () =>
+  queryOptions({
+    queryKey: ['parts'],
+    queryFn: () => quran.v4.juzs.findAll(),
+    staleTime: Infinity,
+  });
+
+export const chaptersQueryOptions = () =>
+  queryOptions({
+    queryKey: ['chapters'],
+    queryFn: () => quran.v4.chapters.findAll(),
+    staleTime: Infinity,
+  });
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -83,13 +103,22 @@ const router = createBrowserRouter([
   },
   {
     path: '/:pageNumber',
-    element: <Page />,
+    element: (
+      <Layout>
+        <Page />
+      </Layout>
+    ),
     loader: async ({ params }) => {
       if (!params.pageNumber) return;
 
       await queryClient.prefetchQuery(versesByPageQueryOptions(params.pageNumber));
 
-      return null;
+      const parts = await queryClient.fetchQuery(partsQueryOptions());
+      const chapters = await queryClient.fetchQuery(chaptersQueryOptions());
+
+      // TODO: add font to document before rendering page
+
+      return { parts, chapters };
     },
   },
 ]);

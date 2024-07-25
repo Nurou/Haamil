@@ -13,7 +13,7 @@ interface FontInfo {
 function getFontsToAdd(prevPage: number, nextPage: number): FontInfo[] {
   // Create an array of font objects
   const fonts: FontInfo[] = [];
-  const BASE_URL = '../assets/fahadcomplexv2imagesfont/';
+  const BASE_URL = 'src/assets/fahadcomplexv2imagesfont';
   for (let i = prevPage; i <= nextPage; i++) {
     fonts.push({ name: `page${i}`, url: `${BASE_URL}/p${i}.woff2` });
   }
