@@ -1,6 +1,6 @@
 import { usePrefetchQuery } from '@tanstack/react-query';
-import { versesByPageQueryOptions } from '../main';
 import { useEffect } from 'react';
+import { versesByPageQueryOptions } from '../queries';
 
 const FIRST_PAGE = 1;
 const LAST_PAGE = 604;

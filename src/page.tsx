@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { Verse } from '@quranjs/api';
 import { useQuery } from '@tanstack/react-query';
-import { versesByPageQueryOptions } from './main';
 import { cn } from './utils';
 import { Dictionary, groupBy } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { usePrefetchAdjacentPagesData } from './hooks/usePrefetchAdjacentPagesData';
 import './fonts.css';
 import './index.css';
+import { versesByPageQueryOptions } from './queries';
 
 function Basmalah() {
   const BASMALAH_UNICODE = '\ufdfd';
