@@ -91,14 +91,14 @@ function Page() {
   const versesByChapter = groupBy(versesByPage, (verse) => verse.chapterId); // chapterId is always present
 
   return (
-    <div className='grid place-items-center whitespace-nowrap'>
+    <div className='grid place-items-center whitespace-nowrap my-4'>
       <Helmet>
         <title>Haamil — Page {pageNumber}</title>
       </Helmet>
       <div className={cn(`font-[page${pageNumber}]`)}>
         <PageLines versesByChapter={versesByChapter} />
       </div>
-      <span className='block mt-16'>{pageNumber}</span>
+      {/* <span className='block bg-slate-100 p-4 mt-4 rounded-full'>{pageNumber}</span> */}
     </div>
   );
 }
