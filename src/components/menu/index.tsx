@@ -5,7 +5,7 @@ import { BookOpen } from 'lucide-react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { buttonVariants } from '../ui/button';
-import { cn } from '../../utils';
+import { cn } from '@/lib/utils';
 import { Chapter, Juz } from '@quranjs/api';
 
 export const Menu = () => {

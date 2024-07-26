@@ -1,7 +1,8 @@
 import { ChapterId, quran, Verse } from '@quranjs/api';
 import { QueryClient, queryOptions } from '@tanstack/react-query';
+
 import { BASE_URL_QDC_CDN } from './constants';
-import { toCamelCase } from './utils';
+import { toCamelCase } from './lib/utils';
 
 export const queryClient = new QueryClient();
 

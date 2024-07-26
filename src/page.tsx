@@ -1,13 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { Verse } from '@quranjs/api';
 import { useQuery } from '@tanstack/react-query';
-import { cn } from './utils';
+import { cn } from './lib/utils';
 import { Dictionary, groupBy } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { usePrefetchAdjacentPagesData } from './hooks/usePrefetchAdjacentPagesData';
 import './fonts.css';
 import './index.css';
 import { versesByPageQueryOptions } from './queries';
+import { Separator } from './components/ui/separator';
 
 function Basmalah() {
   const BASMALAH_UNICODE = '\ufdfd';
@@ -47,8 +48,13 @@ function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]>; 
     const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId) && hasFirstVerseOfChapter;
 
     return (
-      <div key={chapterId} className={cn('grid gap-2', 'sm:text-[1.5em] md:text-[2em]')}>
-        {displayBasmalah && <Basmalah />}
+      <div key={chapterId} className={cn('grid gap-2', 'text-xl sm:text-2xl md:text-3xl lg:text-4xl')}>
+        {displayBasmalah && (
+          <div>
+            <Separator className='my-6' />
+            <Basmalah />
+          </div>
+        )}
         <ChapterLines key={chapterId} verses={chapterVerses} />
       </div>
     );
