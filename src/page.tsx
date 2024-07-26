@@ -7,16 +7,27 @@ import { Helmet } from 'react-helmet-async';
 import { usePrefetchAdjacentPagesData } from './hooks/usePrefetchAdjacentPagesData';
 import './fonts.css';
 import './index.css';
-import { versesByPageQueryOptions } from './queries';
+import { chaptersQueryOptions, versesByPageQueryOptions } from './queries';
 import { Separator } from './components/ui/separator';
 
+const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
+const UNICODE_SURAH = '\uE000';
+const BASMALAH_UNICODE = '\ufdfd';
+
 function Basmalah() {
-  const BASMALAH_UNICODE = '\ufdfd';
   return (
-    <p dir='rtl' className='flex justify-center w-full'>
+    <p dir='rtl' className='flex justify-center w-full mb-2'>
       <span>{BASMALAH_UNICODE}</span>
     </p>
   );
+}
+
+/**
+ * maps to a glyph in the woff2 font file
+ * e.g. chapter 1 --> E001
+ *  */
+function getChapterNameUnicode(chapterId: string) {
+  return `${chapterId.padStart(3, '0')}${UNICODE_SURAH}`;
 }
 
 function ChapterLines({ verses }: { verses: Verse[] }) {
@@ -37,24 +48,28 @@ function ChapterLines({ verses }: { verses: Verse[] }) {
   });
 }
 
-const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
-
-function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]>; pageNumber: string }) {
+function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
   const chapterIds = Object.keys(versesByChapter);
 
   return chapterIds.map((chapterId) => {
     const chapterVerses = versesByChapter[chapterId];
     const hasFirstVerseOfChapter = chapterVerses.some((verse) => verse.verseNumber === 1);
-    const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId) && hasFirstVerseOfChapter;
+    const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId);
+
+    const moreThanOneChapterOnPage = chapterIds.length > 1;
+    const chapterNameUnicode = getChapterNameUnicode(chapterId);
 
     return (
       <div key={chapterId} className={cn('grid gap-2', 'text-xl sm:text-2xl md:text-3xl lg:text-4xl')}>
-        {displayBasmalah && (
+        {hasFirstVerseOfChapter ? (
           <div>
-            <Separator className='my-6' />
-            <Basmalah />
+            {moreThanOneChapterOnPage && <Separator className='my-6' />}
+            <span dir='rtl' className='font-[surah-names] block text-center mb-4 bg-slate-100'>
+              {chapterNameUnicode}
+            </span>
+            {displayBasmalah && <Basmalah />}
           </div>
-        )}
+        ) : null}
         <ChapterLines key={chapterId} verses={chapterVerses} />
       </div>
     );
@@ -65,10 +80,11 @@ function Page() {
   const { pageNumber } = useParams();
 
   const { data: versesByPage } = useQuery(versesByPageQueryOptions(pageNumber));
+  const { data: chapters } = useQuery(chaptersQueryOptions());
 
   usePrefetchAdjacentPagesData(pageNumber);
 
-  if (!versesByPage || !pageNumber) {
+  if (!versesByPage || !pageNumber || !chapters) {
     return null;
   }
 
@@ -80,7 +96,7 @@ function Page() {
         <title>Haamil — Page {pageNumber}</title>
       </Helmet>
       <div className={cn(`font-[page${pageNumber}]`)}>
-        <PageLines versesByChapter={versesByChapter} pageNumber={pageNumber} />
+        <PageLines versesByChapter={versesByChapter} />
       </div>
       <span className='block mt-16'>{pageNumber}</span>
     </div>
