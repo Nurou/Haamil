@@ -10,13 +10,19 @@ import { chaptersQueryOptions, partsQueryOptions, queryClient, versesByPageQuery
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabaseClient } from './lib/supabase-client-.ts';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
 
 const router = createBrowserRouter([
   {
     path: '/sign-in',
     element: (
       <div className='grid place-content-center h-screen'>
-        <Auth appearance={{ theme: ThemeSupa }} providers={['google']} supabaseClient={supabaseClient} />
+        <Auth
+          appearance={{ theme: ThemeSupa }}
+          providers={['google']}
+          supabaseClient={supabaseClient}
+          redirectTo={window.location.origin}
+        />
       </div>
     ),
   },
@@ -50,7 +56,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <SessionContextProvider supabaseClient={supabaseClient}>
+          <RouterProvider router={router} />
+        </SessionContextProvider>
       </QueryClientProvider>
     </HelmetProvider>
   </React.StrictMode>
