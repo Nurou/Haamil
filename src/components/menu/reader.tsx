@@ -1,5 +1,4 @@
 import { Link, useLoaderData, useLocation } from 'react-router-dom';
-import { generateNavItems } from './constants';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 import { BookOpen } from 'lucide-react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
@@ -9,6 +8,49 @@ import { cn } from '@/lib/utils';
 import { Chapter, Juz } from '@quranjs/api';
 import { MenuIconWrapper } from './shared';
 import { WithTooltip } from '../with-tooltip';
+import { uniqBy } from 'lodash';
+import partToFirstPage from '../../data/part-to-first-page-id.json';
+
+const PAGES_COUNT = 604;
+
+const generateNavItems = ({ parts, chapters }: { parts: Juz[]; chapters: Chapter[] }) => {
+  const uniqueParts = uniqBy(parts, 'juzNumber');
+
+  return [
+    {
+      id: 'chapter',
+      title: 'Chapter',
+      children: chapters.map((chapter) => ({
+        id: chapter.id,
+        title: chapter.nameSimple,
+        href: `/${chapter.pages[0]}`,
+      })),
+    },
+    {
+      id: 'part',
+      title: 'Juz',
+      children: uniqueParts.map((part) => {
+        const partNumber = part.juzNumber.toString() as keyof typeof partToFirstPage;
+        const firstPageOfPart = partToFirstPage[partNumber];
+
+        return {
+          id: part.id,
+          title: `Juz ${part.juzNumber.toString()}`, //TODO: add start surah name and hizb + maybe ayah
+          href: `/${firstPageOfPart}`,
+        };
+      }),
+    },
+    {
+      id: 'page',
+      title: 'Page',
+      children: Array.from({ length: PAGES_COUNT }, (_, i) => ({
+        id: i + 1,
+        title: `Page ${i + 1}`,
+        href: `/${i + 1}`,
+      })),
+    },
+  ];
+};
 
 export const ReaderNavigationMenu = () => {
   const { parts, chapters } = useLoaderData() as { parts: Juz[]; chapters: Chapter[] };
