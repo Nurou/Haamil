@@ -5,16 +5,45 @@ import { useSession } from '@supabase/auth-helpers-react';
 import { ReaderNavigationMenu } from './reader';
 import { MenuIconWrapper } from './shared';
 import { WithTooltip } from '../with-tooltip';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../ui/alert-dialog';
 
 const SignOut = () => {
   return (
-    <WithTooltip content={<p>Sign out</p>}>
-      <MenuIconWrapper>
-        <button onClick={() => supabaseClient.auth.signOut()}>
-          <LogOut />
-        </button>
-      </MenuIconWrapper>
-    </WithTooltip>
+    <>
+      <AlertDialog>
+        <AlertDialogTrigger>
+          <WithTooltip content={<p>Sign out</p>}>
+            <MenuIconWrapper>
+              <button>
+                <LogOut />
+              </button>
+            </MenuIconWrapper>
+          </WithTooltip>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to sign out?</AlertDialogTitle>
+            <AlertDialogDescription>
+              You can still use the reader without being signed out, but you won't be able to save your progress.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => supabaseClient.auth.signOut()}>Sign out</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 
