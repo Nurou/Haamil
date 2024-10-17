@@ -9,8 +9,10 @@ import { Layout } from './components/layout.tsx';
 import { chaptersQueryOptions, partsQueryOptions, queryClient, versesByPageQueryOptions } from './queries.ts';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
-import { supabaseClient } from './lib/supabase-client-.ts';
+import { supabaseClient } from './lib/supabase-client.ts';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
+
+// Remove the createClient call since you're already using supabaseClient
 
 const router = createBrowserRouter([
   {
@@ -54,12 +56,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <HelmetProvider>
+    <SessionContextProvider supabaseClient={supabaseClient}>
       <QueryClientProvider client={queryClient}>
-        <SessionContextProvider supabaseClient={supabaseClient}>
+        <HelmetProvider>
           <RouterProvider router={router} />
-        </SessionContextProvider>
+        </HelmetProvider>
       </QueryClientProvider>
-    </HelmetProvider>
+    </SessionContextProvider>
   </React.StrictMode>
 );
