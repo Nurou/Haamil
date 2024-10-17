@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { LogIn, LogOut } from 'lucide-react';
-import { supabaseClient } from '../../lib/supabase-client-';
+import { supabaseClient } from '../../lib/supabase-client';
 import { useSession } from '@supabase/auth-helpers-react';
 import { ReaderNavigationMenu } from './reader';
 import { MenuIconWrapper } from './shared';
