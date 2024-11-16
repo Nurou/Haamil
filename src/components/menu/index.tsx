@@ -22,24 +22,26 @@ const SignOut = () => {
     <>
       <AlertDialog>
         <AlertDialogTrigger>
-          <WithTooltip content={<p>Sign out</p>}>
-            <MenuIconWrapper>
-              <button>
-                <LogOut />
-              </button>
-            </MenuIconWrapper>
-          </WithTooltip>
+          {/* TODO: can't use Shadcn tooltip as it nests a button inside the alert dialog trigger button */}
+          {/* <WithTooltip content={<p>Sign out</p>}> */}
+          <MenuIconWrapper>
+            <LogOut />
+          </MenuIconWrapper>
+          {/* </WithTooltip> */}
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure you want to sign out?</AlertDialogTitle>
             <AlertDialogDescription>
-              You can still use the reader without being signed out, but you won't be able to save your progress.
+              You can still use the reader without being signed out, but you won't be able to save
+              your progress.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => supabaseClient.auth.signOut()}>Sign out</AlertDialogAction>
+            <AlertDialogAction onClick={() => supabaseClient.auth.signOut()}>
+              Sign out
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -51,7 +53,7 @@ const SignIn = () => {
   return (
     <WithTooltip content={<p>Sign in</p>}>
       <MenuIconWrapper>
-        <Link to='/sign-in'>
+        <Link to="/sign-in">
           <LogIn />
         </Link>
       </MenuIconWrapper>
@@ -63,7 +65,7 @@ export const Menu = () => {
   const session = useSession();
 
   return (
-    <div className='flex items-center justify-center gap-4 h-[50px]'>
+    <div className="flex items-center justify-center gap-4 h-[50px]">
       {session ? <SignOut /> : <SignIn />}
       <ReaderNavigationMenu />
     </div>

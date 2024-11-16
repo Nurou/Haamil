@@ -1,5 +1,12 @@
 import { Link, useLoaderData, useLocation } from 'react-router-dom';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '../ui/sheet';
 import { BookOpen } from 'lucide-react';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
@@ -7,7 +14,6 @@ import { buttonVariants } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { Chapter, Juz } from '@quranjs/api';
 import { MenuIconWrapper } from './shared';
-import { WithTooltip } from '../with-tooltip';
 import { uniqBy } from 'lodash';
 import partToFirstPage from '../../data/part-to-first-page-id.json';
 
@@ -64,23 +70,22 @@ export const ReaderNavigationMenu = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        <WithTooltip content={<p>Open reader menu</p>}>
-          <MenuIconWrapper>
-            <button>
-              <BookOpen />
-            </button>
-          </MenuIconWrapper>
-        </WithTooltip>
+        {/* TODO: can't use Shadcn tooltip as it nests a button inside the sheet trigger button */}
+        {/* <WithTooltip content={<p>Open reader menu</p>}> */}
+        <MenuIconWrapper>
+          <BookOpen />
+        </MenuIconWrapper>
+        {/* </WithTooltip> */}
       </SheetTrigger>
       {/* TODO: place this to the left on larger screens  */}
-      <SheetContent side='bottom' className='overflow-auto grid place-content-center'>
+      <SheetContent side="bottom" className="overflow-auto grid place-content-center">
         <SheetHeader>
           <VisuallyHidden.Root>
             <SheetTitle>Reader menu</SheetTitle>
             <SheetDescription>Navigate to anywhere in the Quran from here.</SheetDescription>
           </VisuallyHidden.Root>
         </SheetHeader>
-        <Tabs defaultValue='chapter' className=''>
+        <Tabs defaultValue="chapter" className="">
           <TabsList>
             {navItems.map((item) => (
               <TabsTrigger key={item.id} value={item.id}>
@@ -90,7 +95,7 @@ export const ReaderNavigationMenu = () => {
           </TabsList>
           {navItems.map((item) => (
             <TabsContent key={item.id} value={item.id}>
-              <nav className='h-[200px] overflow-auto grid place-items-center'>
+              <nav className="h-[200px] overflow-auto grid place-items-center">
                 {item.children.map((child) => (
                   <Link
                     key={child.id}

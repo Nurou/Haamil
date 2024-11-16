@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { getNextReviewDate, rateCard, Rating } from './lib/fsrs';
 import { useUser } from '@supabase/auth-helpers-react';
 import { useGetOrCreatePageCard } from './hooks/use-get-or-create-page-card';
+import { useState } from 'react';
 
 const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
 const UNICODE_SURAH = '\uE000';
@@ -92,7 +93,9 @@ function Page() {
   const { data: versesByPage } = useQuery(versesByPageQueryOptions(pageNumber));
   const { data: chapters } = useQuery(chaptersQueryOptions());
   const { data: card } = useGetOrCreatePageCard(pageNumber);
-  console.log('card', card);
+  console.log('card', !!card);
+
+  const [isMarkedForReview, setIsMarkedForReview] = useState(false);
 
   const upsertCardMutation = useUpsertPageCardMutation();
 
@@ -122,7 +125,7 @@ function Page() {
     );
   };
 
-  const shouldDisplayRatingButtons = !!card && !!userId;
+  const shouldDisplayRatingButtons = !!card && !!userId && isMarkedForReview;
 
   return (
     <div className="grid place-items-center whitespace-nowrap my-4">
@@ -132,7 +135,7 @@ function Page() {
       <div className={cn(`font-[page${pageNumber}]`)}>
         <PageLines versesByChapter={versesByChapter} />
       </div>
-      <div className="flex flex-col items-center mt-4 space-y-2">
+      <div className="flex flex-col items-center mt-16 space-y-2">
         <div className="flex justify-center space-x-2">
           {shouldDisplayRatingButtons ? (
             <>
@@ -165,7 +168,11 @@ function Page() {
                 Easy
               </Button>
             </>
-          ) : null}
+          ) : (
+            <Button variant="default" onClick={() => setIsMarkedForReview(true)}>
+              Enable review {/* TODO: replace with a toggle */}
+            </Button>
+          )}
         </div>
         {card ? (
           <p className="text-sm text-gray-600">Next review: {getNextReviewDate(card)}</p>

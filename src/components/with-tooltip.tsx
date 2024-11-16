@@ -1,6 +1,12 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
-export const WithTooltip = ({ children, content }: { children: React.ReactNode; content: React.ReactNode }) => {
+export const WithTooltip = ({
+  children,
+  content,
+}: {
+  children: React.ReactNode;
+  content: React.ReactNode;
+}) => {
   return (
     <TooltipProvider>
       <Tooltip>
