@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import Page from './page.tsx';
 import './index.css';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
@@ -57,14 +56,28 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <SessionContextProvider supabaseClient={supabaseClient}>
-      <QueryClientProvider client={queryClient}>
-        <HelmetProvider>
-          <RouterProvider router={router} />
-        </HelmetProvider>
-      </QueryClientProvider>
-    </SessionContextProvider>
-  </React.StrictMode>
-);
+//ReactDOM.createRoot(document.getElementById('root')!).render(
+//  <React.StrictMode>
+//    <SessionContextProvider supabaseClient={supabaseClient}>
+//      <QueryClientProvider client={queryClient}>
+//        <HelmetProvider>
+//          <RouterProvider router={router} />
+//        </HelmetProvider>
+//      </QueryClientProvider>
+//    </SessionContextProvider>
+//  </React.StrictMode>
+//);
+//
+export default function App() {
+  return (
+    <React.StrictMode>
+      <SessionContextProvider supabaseClient={supabaseClient}>
+        <QueryClientProvider client={queryClient}>
+          <HelmetProvider>
+            <RouterProvider router={router} />
+          </HelmetProvider>
+        </QueryClientProvider>
+      </SessionContextProvider>
+    </React.StrictMode>
+  );
+}
