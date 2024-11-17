@@ -6,6 +6,7 @@ import { cn } from '../../../lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { usePageSwipe } from '../../../hooks/use-page-swipe';
 import { useParams, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
 const UNICODE_SURAH = '\uE000';
@@ -79,12 +80,20 @@ function ChapterContent({
 export function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
   const router = useRouter();
   const params = useParams();
-  const pageNumber = params.id as string;
+  const pageNumber = parseInt(params.id as string);
+
+  // Prefetch closest adjacent pages
+  useEffect(() => {
+    const prevPage = pageNumber - 1;
+    const nextPage = pageNumber + 1;
+    router.prefetch(`/page/${prevPage}`);
+    router.prefetch(`/page/${nextPage}`);
+  }, [pageNumber, router]);
 
   const { handlers } = usePageSwipe({
-    currentPageNumber: parseInt(pageNumber),
-    onSwiped: (nextPage) => {
-      router.push(`/page/${nextPage}`);
+    currentPageNumber: pageNumber,
+    onSwiped: (id) => {
+      router.push(`/page/${id}`);
     },
   });
 
