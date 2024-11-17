@@ -126,14 +126,15 @@ type Params = Promise<{ id: string }>;
 
 export default async function Page(props: { params: Params }) {
   const { id } = await props.params;
+
   const verses = await getVersesByPage(id);
   const versesByChapter = groupBy(verses, (verse) => verse.chapterId);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <section className="min-h-screen flex items-center justify-center">
       <div className={cn(`font-[page${id}]`)}>
         <PageLines versesByChapter={versesByChapter} />
       </div>
-    </div>
+    </section>
   );
 }

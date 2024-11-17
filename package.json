@@ -10,7 +10,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "scn": "pnpm dlx shadcn-ui@latest add",
     "format": "prettier --write .",
-    "serve": "pnpm dlx serve@latest out"
+    "serve": "pnpm dlx serve@latest out",
+    "build-serve": "pnpm build && pnpm serve"
   },
   "dependencies": {
     "@quranjs/api": "^1.7.1",

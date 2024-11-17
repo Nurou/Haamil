@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'My App',
-  description: 'My App is a...',
+  title: 'Haamil',
+  description: 'Haamil is a Quran memorization app.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

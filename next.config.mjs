@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  trailingSlash: true,
+  trailingSlash: true, // Needed to enable navigating to <page> instead of <page.html>
 };
 
 export default nextConfig;
