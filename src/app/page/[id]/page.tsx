@@ -1,78 +1,41 @@
 import '../../../index.css';
 import '../../../fonts.css';
 
-import { Dictionary, groupBy } from 'lodash';
-import { Verse } from '@quranjs/api';
-import { Separator } from '@/components/ui/separator';
+import { groupBy } from 'lodash';
+
 import { cn, toCamelCase } from '@/lib/utils';
 import { BASE_URL_QDC_CDN } from '../../../constants';
+import { PageLines } from './page-lines';
 
-// Constants moved from the original file
-const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
-const UNICODE_SURAH = '\uE000';
-const BASMALAH_UNICODE = '\ufdfd';
+// function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
+//   const chapterIds = Object.keys(versesByChapter);
 
-// Helper function for chapter name unicode
-function getChapterNameUnicode(chapterId: string) {
-  return `${chapterId.padStart(3, '0')}${UNICODE_SURAH}`;
-}
+//   return chapterIds.map((chapterId) => {
+//     const chapterVerses = versesByChapter[chapterId];
+//     const hasFirstVerseOfChapter = chapterVerses.some((verse) => verse.verseNumber === 1);
+//     const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId);
+//     const moreThanOneChapterOnPage = chapterIds.length > 1;
+//     const chapterNameUnicode = getChapterNameUnicode(chapterId);
 
-function Basmalah() {
-  return (
-    <p dir="rtl" className="flex justify-center w-full mb-2">
-      <span>{BASMALAH_UNICODE}</span>
-    </p>
-  );
-}
-
-function ChapterLines({ verses }: { verses: Verse[] }) {
-  const linesToWordsMap = groupBy(
-    verses.flatMap((v) => v.words),
-    (word) => word?.lineNumber as number
-  );
-
-  return Object.keys(linesToWordsMap).map((lineNumber) => {
-    const words = linesToWordsMap[lineNumber];
-
-    return (
-      <p dir="rtl" key={`${lineNumber}-${words.length}`} className="flex justify-center w-full">
-        {words.map((word) => {
-          return <span key={`${word?.id}-${word?.lineNumber}`}>{word?.codeV2}</span>;
-        })}
-      </p>
-    );
-  });
-}
-
-function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
-  const chapterIds = Object.keys(versesByChapter);
-
-  return chapterIds.map((chapterId) => {
-    const chapterVerses = versesByChapter[chapterId];
-    const hasFirstVerseOfChapter = chapterVerses.some((verse) => verse.verseNumber === 1);
-    const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId);
-    const moreThanOneChapterOnPage = chapterIds.length > 1;
-    const chapterNameUnicode = getChapterNameUnicode(chapterId);
-
-    return (
-      <div
-        key={`${chapterId}-${chapterVerses.length}`}
-        className={cn('grid gap-2', 'text-xl sm:text-2xl md:text-3xl lg:text-4xl')}
-      >
-        {hasFirstVerseOfChapter ? (
-          <div>
-            {moreThanOneChapterOnPage && <Separator className="my-6" />}
-            <span dir="rtl" className="font-[surah-names] block text-center mb-4 bg-slate-100">
-              {chapterNameUnicode}
-            </span>
-            {displayBasmalah && <Basmalah />}
-          </div>
-        ) : null}
-        <ChapterLines verses={chapterVerses} />
-      </div>
-    );
-  });
-}
+//     return (
+//       <div
+//         key={`${chapterId}-${chapterVerses.length}`}
+//         className={cn('grid gap-2', 'text-xl sm:text-2xl md:text-3xl lg:text-4xl')}
+//       >
+//         {hasFirstVerseOfChapter ? (
+//           <div>
+//             {moreThanOneChapterOnPage && <Separator className="my-6" />}
+//             <span dir="rtl" className="font-[surah-names] block text-center mb-4 bg-slate-100">
+//               {chapterNameUnicode}
+//             </span>
+//             {displayBasmalah && <Basmalah />}
+//           </div>
+//         ) : null}
+//         <ChapterLines verses={chapterVerses} />
+//       </div>
+//     );
+//   });
+// }
 
 export function generateStaticParams() {
   // Generate paths for all 604 pages of the Quran

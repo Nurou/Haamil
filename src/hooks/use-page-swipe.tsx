@@ -1,58 +1,33 @@
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
-import { SwipeEventData, useSwipeable } from 'react-swipeable';
+import { useSwipeable } from 'react-swipeable';
 
-const LOWER_BOUND = 1;
-const UPPER_BOUND = 604;
-
-async function changePage({
-  eventData,
-  navigate,
-  pageNumber,
+export const usePageSwipe = ({
+  onSwiped,
+  currentPageNumber,
+  lowerBound = 1,
+  upperBound = 604,
 }: {
-  eventData: SwipeEventData;
-  navigate: NavigateFunction;
-  pageNumber: string;
-}) {
-  if (!pageNumber) return;
-
-  const direction = eventData.dir;
-
-  const userSwipedLeft = direction === 'Left';
-  const userSwipedRight = direction === 'Right';
-
-  const isOutOfBoundsLeft = parseInt(pageNumber) === LOWER_BOUND;
-  const isOutOfBoundsRight = parseInt(pageNumber) === UPPER_BOUND;
-
-  const prevPage = (parseInt(pageNumber) - 1).toString();
-  const nextPage = (parseInt(pageNumber) + 1).toString();
-
-  if (userSwipedLeft && !isOutOfBoundsLeft) {
-    navigate(`/${prevPage}`);
-  }
-  if (userSwipedRight && !isOutOfBoundsRight) {
-    navigate(`/${nextPage}`);
-  }
-}
-
-export const usePageSwipe = () => {
-  const navigate = useNavigate();
-  const { pageNumber } = useParams();
-
+  onSwiped: (page: string) => void;
+  currentPageNumber: number;
+  lowerBound?: number;
+  upperBound?: number;
+}) => {
   const handlers = useSwipeable({
     onSwiped: (eventData) => {
-      if (!pageNumber) return;
+      if (!currentPageNumber) return;
 
-      changePage({
-        eventData,
-        navigate,
-        pageNumber,
-      });
-    },
-    onTap: (eventData) => {
-      console.log('User Tapped!', eventData);
-      // TODO: implement menu highlight/open in response to a tap
+      const { dir } = eventData;
+
+      if (dir === 'Left' && currentPageNumber > lowerBound) {
+        const prevPage = (currentPageNumber - 1).toString();
+        onSwiped(prevPage);
+      }
+
+      if (dir === 'Right' && currentPageNumber < upperBound) {
+        const nextPage = (currentPageNumber + 1).toString();
+        onSwiped(nextPage);
+      }
     },
   });
 
-  return handlers;
+  return { handlers };
 };
