@@ -7,36 +7,6 @@ import { cn, toCamelCase } from '@/lib/utils';
 import { BASE_URL_QDC_CDN } from '../../../constants';
 import { PageLines } from './page-lines';
 
-// function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
-//   const chapterIds = Object.keys(versesByChapter);
-
-//   return chapterIds.map((chapterId) => {
-//     const chapterVerses = versesByChapter[chapterId];
-//     const hasFirstVerseOfChapter = chapterVerses.some((verse) => verse.verseNumber === 1);
-//     const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId);
-//     const moreThanOneChapterOnPage = chapterIds.length > 1;
-//     const chapterNameUnicode = getChapterNameUnicode(chapterId);
-
-//     return (
-//       <div
-//         key={`${chapterId}-${chapterVerses.length}`}
-//         className={cn('grid gap-2', 'text-xl sm:text-2xl md:text-3xl lg:text-4xl')}
-//       >
-//         {hasFirstVerseOfChapter ? (
-//           <div>
-//             {moreThanOneChapterOnPage && <Separator className="my-6" />}
-//             <span dir="rtl" className="font-[surah-names] block text-center mb-4 bg-slate-100">
-//               {chapterNameUnicode}
-//             </span>
-//             {displayBasmalah && <Basmalah />}
-//           </div>
-//         ) : null}
-//         <ChapterLines verses={chapterVerses} />
-//       </div>
-//     );
-//   });
-// }
-
 export function generateStaticParams() {
   // Generate paths for all 604 pages of the Quran
   const pages = Array.from({ length: 604 }, (_, i) => ({
@@ -80,7 +50,6 @@ async function getVersesByPage(pageNumber: string) {
     return toCamelCase(versesByPage.verses);
   } catch (error) {
     console.error(`Error fetching page ${pageNumber}:`, error);
-    // Return empty array as fallback to prevent page from crashing
     return [];
   }
 }
