@@ -13,7 +13,8 @@ export const getVersesByPage = async (pageNumber: string): Promise<Verse[]> => {
     fields: 'text_uthmani,chapter_id,hizb_number,text_imlaei_simple',
     reciter: '7',
     word_translation_language: 'en',
-    word_fields: 'line_number,verse_key,verse_id,page_number,location,text_uthmani,code_v2,qpc_uthmani_hafs',
+    word_fields:
+      'line_number,verse_key,verse_id,page_number,location,text_uthmani,code_v2,qpc_uthmani_hafs',
     mushaf: '1',
     filter_page_words: 'true',
   };
