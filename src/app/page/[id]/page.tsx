@@ -1,6 +1,3 @@
-import '../../../index.css';
-import '../../../fonts.css';
-
 import { groupBy } from 'lodash';
 
 import { cn, toCamelCase } from '@/lib/utils';
@@ -25,7 +22,7 @@ async function getVersesByPage(pageNumber: string) {
       reciter: '7',
       word_translation_language: 'en',
       word_fields:
-        'line_number,verse_key,verse_id,page_number,location,text_uthmani,code_v2,qpc_uthmani_hafs',
+        'line_number,verse_key,verse_id,page_number,location,text_uthmani,code_v2,code_v1,qpc_uthmani_hafs',
       mushaf: '1',
       filter_page_words: 'true',
     };
@@ -46,6 +43,7 @@ async function getVersesByPage(pageNumber: string) {
     }
 
     const versesByPage = await response.json();
+
     // camel casing for parity with official API that returns camel case
     return toCamelCase(versesByPage.verses);
   } catch (error) {
