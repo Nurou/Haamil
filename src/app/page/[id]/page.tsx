@@ -5,7 +5,7 @@ import { groupBy } from 'lodash';
 
 import { cn, toCamelCase } from '@/lib/utils';
 import { BASE_URL_QDC_CDN } from '../../../constants';
-import { PageLines } from './page-lines';
+import { Reader } from './reader';
 
 export function generateStaticParams() {
   // Generate paths for all 604 pages of the Quran
@@ -71,7 +71,7 @@ export default async function Page(props: { params: Params }) {
   return (
     <section className="min-h-screen flex items-center justify-center">
       <div className={cn(`font-[page${id}]`)}>
-        <PageLines versesByChapter={versesByChapter} />
+        <Reader versesByChapter={versesByChapter} />
       </div>
     </section>
   );
