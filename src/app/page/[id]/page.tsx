@@ -1,3 +1,6 @@
+import '../../../fonts-hafs-v1.css';
+import '../../../index.css';
+
 import { groupBy } from 'lodash';
 
 import { cn, toCamelCase } from '@/lib/utils';

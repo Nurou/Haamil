@@ -1,6 +1,3 @@
-import '../fonts-hafs-v1.css';
-import '../index.css';
-
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
