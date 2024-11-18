@@ -1,4 +1,4 @@
-import '../fonts.css';
+import '../fonts-hafs-v1.css';
 import '../index.css';
 
 import { Metadata } from 'next';

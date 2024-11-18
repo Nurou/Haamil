@@ -13,6 +13,11 @@ export function generateStaticParams() {
   return pages;
 }
 
+enum MushafToQueryParamCode {
+  HAFS_V1 = '2',
+  HAFS_V2 = '1',
+}
+
 async function getVersesByPage(pageNumber: string) {
   try {
     const params = {
@@ -23,7 +28,7 @@ async function getVersesByPage(pageNumber: string) {
       word_translation_language: 'en',
       word_fields:
         'line_number,verse_key,verse_id,page_number,location,text_uthmani,code_v2,code_v1,qpc_uthmani_hafs',
-      mushaf: '1',
+      mushaf: MushafToQueryParamCode.HAFS_V1,
       filter_page_words: 'true',
     };
 

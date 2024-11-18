@@ -37,7 +37,7 @@ function ChapterLines({ verses }: { verses: Verse[] }) {
     return (
       <p dir="rtl" key={`${lineNumber}-${words.length}`} className="flex justify-center w-full">
         {words.map((word) => {
-          return <span key={`${word?.id}-${word?.lineNumber}`}>{word?.codeV2}</span>;
+          return <span key={`${word?.id}-${word?.lineNumber}`}>{word?.codeV1}</span>;
         })}
       </p>
     );
