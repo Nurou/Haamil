@@ -10,7 +10,7 @@ export default function SignIn() {
         appearance={{ theme: ThemeSupa }}
         providers={['google']}
         supabaseClient={supabaseClient}
-        redirectTo={window.location.origin}
+        redirectTo={typeof window !== 'undefined' ? window.location.origin : undefined}
       />
     </div>
   );
