@@ -37,6 +37,7 @@ export const versesByPageQueryOptions = (pageNumber = '1') =>
     queryKey: ['verses', pageNumber],
     queryFn: () => getVersesByPage(pageNumber),
     enabled: !!pageNumber,
+    staleTime: Infinity,
     // OLD SDK CODE — do not remove
     // queryFn: () =>
     //   quran.v4.verses.findByPage(pageNumber as PageNumber, {

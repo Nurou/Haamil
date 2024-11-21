@@ -1,10 +1,11 @@
 import { Verse } from '@quranjs/api';
-import { Dictionary, groupBy } from 'lodash';
+import { groupBy } from 'lodash';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { usePageSwipe } from '@/hooks/use-page-swipe';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useReaderContext } from './use-reader-context';
 
 const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
 const UNICODE_SURAH = '\uE000';
@@ -75,7 +76,7 @@ function ChapterContent({
   );
 }
 
-export function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
+export function PageLines() {
   const router = useRouter();
   const params = useParams();
   const pageNumber = parseInt(params.id as string);
@@ -88,17 +89,19 @@ export function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Ver
     router.prefetch(`/page/${nextPage}`);
   }, [pageNumber, router]);
 
-  const { handlers } = usePageSwipe({
+  const { handlers: swipeableHandlers } = usePageSwipe({
     currentPageNumber: pageNumber,
     onSwiped: (id) => {
       router.push(`/page/${id}`);
     },
   });
 
+  const { versesByChapter } = useReaderContext();
+
   const chapterIds = Object.keys(versesByChapter);
 
   return (
-    <div {...handlers} className="w-full">
+    <div {...swipeableHandlers} className="w-full">
       {chapterIds.map((chapterId) => {
         const chapterVerses = versesByChapter[chapterId];
         const hasFirstVerseOfChapter = chapterVerses.some((verse) => verse.verseNumber === 1);

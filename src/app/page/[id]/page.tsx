@@ -1,10 +1,29 @@
-import '../../../fonts-hafs-v1.css';
+import '@/fonts-hafs-v1.css';
 
 import { groupBy } from 'lodash';
 
 import { cn, toCamelCase } from '@/lib/utils';
-import { BASE_URL_QDC_CDN } from '../../../constants';
-import ReaderSpa from './reader-spa';
+import { BASE_URL_QDC_CDN } from '@/constants';
+import ReaderRenderer from './reader-spa';
+import { chaptersQueryOptions, partsQueryOptions, queryClient } from '@/queries';
+import { Verse } from '@quranjs/api';
+
+enum MushafToQueryParamCode {
+  HAFS_V1 = '2',
+  HAFS_V2 = '1',
+}
+
+async function getParts() {
+  const parts = await queryClient.fetchQuery(partsQueryOptions());
+
+  return parts;
+}
+
+async function getChapters() {
+  const chapters = await queryClient.fetchQuery(chaptersQueryOptions());
+
+  return chapters;
+}
 
 export function generateStaticParams() {
   // Generate paths for all 604 pages of the Quran
@@ -13,11 +32,6 @@ export function generateStaticParams() {
   }));
 
   return pages;
-}
-
-enum MushafToQueryParamCode {
-  HAFS_V1 = '2',
-  HAFS_V2 = '1',
 }
 
 async function getVersesByPage(pageNumber: string) {
@@ -59,20 +73,36 @@ async function getVersesByPage(pageNumber: string) {
   }
 }
 
+function groupVersesByPage(verses: Verse[]) {
+  return groupBy(verses, (verse) => verse.chapterId);
+}
+
+async function getReaderContextData(id: string) {
+  const [versesByChapter, parts, chapters] = await Promise.all([
+    getVersesByPage(id).then(groupVersesByPage),
+    getParts(),
+    getChapters(),
+  ]);
+
+  const readerContext = {
+    versesByChapter,
+    parts,
+    chapters,
+  };
+
+  return readerContext;
+}
+
 type Params = Promise<{ id: string }>;
 
 export default async function Page(props: { params: Params }) {
   const { id } = await props.params;
 
-  const verses = await getVersesByPage(id);
-  const versesByChapter = groupBy(verses, (verse) => verse.chapterId);
+  const readerContextData = await getReaderContextData(id);
 
   return (
-    // <section className="min-h-screen flex items-center justify-center border-2 border-red-200">
     <div className={cn(`font-[page${id}]`)}>
-      <ReaderSpa versesByChapter={versesByChapter} />
-      {/* <Reader versesByChapter={versesByChapter} /> */}
+      <ReaderRenderer {...readerContextData} />
     </div>
-    // </section>
   );
 }

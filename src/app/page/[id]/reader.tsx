@@ -2,12 +2,11 @@ import { PageLines } from './page-lines';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/queries';
 import { supabaseClient } from '@/supabase/client';
-import { Verse } from '@quranjs/api';
-import { Dictionary } from 'lodash';
 import { SessionContextProvider } from '@/supabase/helpers';
 import { Menu } from '@/components/menu';
+import { ReaderContextProvider, ReaderContextType } from './use-reader-context';
 
-function getInitialSession() {
+function getInitialSessionFromBrowserStorage() {
   let initialSession = null;
   if (typeof window !== 'undefined') {
     try {
@@ -29,14 +28,16 @@ function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function Reader({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
-  const initialSession = getInitialSession();
+export default function Reader(readerContextData: ReaderContextType) {
+  const initialSession = getInitialSessionFromBrowserStorage();
   return (
     <SessionContextProvider supabaseClient={supabaseClient} initialSession={initialSession}>
       <QueryClientProvider client={queryClient}>
-        <Layout>
-          <PageLines versesByChapter={versesByChapter} />
-        </Layout>
+        <ReaderContextProvider value={readerContextData}>
+          <Layout>
+            <PageLines />
+          </Layout>
+        </ReaderContextProvider>
       </QueryClientProvider>
     </SessionContextProvider>
   );
