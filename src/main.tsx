@@ -13,8 +13,8 @@ import {
 } from './queries.ts';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
-import { supabaseClient } from './lib/supabase-client.ts';
-import { SessionContextProvider } from '@supabase/auth-helpers-react';
+import { supabaseClient } from './supabase/client.ts';
+import { SessionContextProvider } from './supabase/helpers.tsx';
 
 const router = createBrowserRouter([
   {

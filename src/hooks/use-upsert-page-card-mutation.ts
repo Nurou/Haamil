@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { supabaseClient } from '../lib/supabase-client';
+import { supabaseClient } from '@/supabase/client';
 import { Card } from 'ts-fsrs';
 
 interface Params {

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { useUser } from '@supabase/auth-helpers-react';
-import { supabaseClient } from '@/lib/supabase-client';
 import { Card, createEmptyCard } from 'ts-fsrs';
+import { supabaseClient } from '@/supabase/client';
+import { useUser } from '@/supabase/helpers';
 
 async function getOrCreatePageCard(userId: string, pageNumber: string): Promise<Card> {
   const { data, error } = await supabaseClient

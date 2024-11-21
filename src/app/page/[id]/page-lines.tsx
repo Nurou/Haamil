@@ -1,11 +1,10 @@
 import { Verse } from '@quranjs/api';
 import { Dictionary, groupBy } from 'lodash';
-import { cn } from '../../../lib/utils';
+import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
-import { usePageSwipe } from '../../../hooks/use-page-swipe';
+import { usePageSwipe } from '@/hooks/use-page-swipe';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-// import { useSessionContext, useUser } from '@supabase/auth-helpers-react';
 
 const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
 const UNICODE_SURAH = '\uE000';
@@ -77,8 +76,6 @@ function ChapterContent({
 }
 
 export function PageLines({ versesByChapter }: { versesByChapter: Dictionary<Verse[]> }) {
-  //   const user = useUser();
-  //   const session = useSessionContext();
   const router = useRouter();
   const params = useParams();
   const pageNumber = parseInt(params.id as string);

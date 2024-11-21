@@ -1,11 +1,10 @@
 import '../../../fonts-hafs-v1.css';
-import '../../../index.css';
 
 import { groupBy } from 'lodash';
 
 import { cn, toCamelCase } from '@/lib/utils';
 import { BASE_URL_QDC_CDN } from '../../../constants';
-import { Reader } from './reader';
+import ReaderSpa from './reader-spa';
 
 export function generateStaticParams() {
   // Generate paths for all 604 pages of the Quran
@@ -69,10 +68,11 @@ export default async function Page(props: { params: Params }) {
   const versesByChapter = groupBy(verses, (verse) => verse.chapterId);
 
   return (
-    <section className="min-h-screen flex items-center justify-center">
-      <div className={cn(`font-[page${id}]`)}>
-        <Reader versesByChapter={versesByChapter} />
-      </div>
-    </section>
+    // <section className="min-h-screen flex items-center justify-center border-2 border-red-200">
+    <div className={cn(`font-[page${id}]`)}>
+      <ReaderSpa versesByChapter={versesByChapter} />
+      {/* <Reader versesByChapter={versesByChapter} /> */}
+    </div>
+    // </section>
   );
 }

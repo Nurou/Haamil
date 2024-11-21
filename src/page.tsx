@@ -12,9 +12,9 @@ import { chaptersQueryOptions, versesByPageQueryOptions } from './queries';
 import { Separator } from './components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { getNextReviewDate, rateCard, Rating } from './lib/fsrs';
-import { useUser } from '@supabase/auth-helpers-react';
 import { useGetOrCreatePageCard } from './hooks/use-get-or-create-page-card';
 import { useState } from 'react';
+import { useUser } from './supabase/helpers';
 
 const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
 const UNICODE_SURAH = '\uE000';
