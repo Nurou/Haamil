@@ -45,15 +45,14 @@ function ChapterLines({ verses }: { verses: Verse[] }) {
 
 function ChapterContent({
   chapterId,
-  chapterVerses,
-  hasFirstVerseOfChapter,
   pageHasMultipleChapters,
 }: {
   chapterId: string;
-  chapterVerses: Verse[];
-  hasFirstVerseOfChapter: boolean;
   pageHasMultipleChapters: boolean;
 }) {
+  const { versesByChapter } = useReaderContext();
+  const chapterVerses = versesByChapter[chapterId];
+  const hasFirstVerseOfChapter = chapterVerses.some((verse) => verse.verseNumber === 1);
   const displayBasmalah = !CHAPTERS_WITH_NO_BASMALAH.includes(chapterId);
   const chapterNameUnicode = getChapterNameUnicode(chapterId);
 
@@ -99,20 +98,15 @@ export function PageLines() {
   const { versesByChapter } = useReaderContext();
 
   const chapterIds = Object.keys(versesByChapter);
+  const pageHasMultipleChapters = chapterIds.length > 1;
 
   return (
     <div {...swipeableHandlers} className="w-full">
       {chapterIds.map((chapterId) => {
-        const chapterVerses = versesByChapter[chapterId];
-        const hasFirstVerseOfChapter = chapterVerses.some((verse) => verse.verseNumber === 1);
-        const pageHasMultipleChapters = chapterIds.length > 1;
-
         return (
           <ChapterContent
             key={chapterId}
             chapterId={chapterId}
-            chapterVerses={chapterVerses}
-            hasFirstVerseOfChapter={hasFirstVerseOfChapter}
             pageHasMultipleChapters={pageHasMultipleChapters}
           />
         );
