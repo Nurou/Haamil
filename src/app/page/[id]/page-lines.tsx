@@ -75,18 +75,24 @@ function ChapterContent({
   );
 }
 
-export function PageLines() {
-  const router = useRouter();
-  const params = useParams();
-  const pageNumber = parseInt(params.id as string);
+type Router = ReturnType<typeof useRouter>;
 
-  // Prefetch closest adjacent pages
+// Prefetch closest adjacent pages
+function usePrefetchAdjacentPagesData(pageNumber: number, router: Router) {
   useEffect(() => {
     const prevPage = pageNumber - 1;
     const nextPage = pageNumber + 1;
     router.prefetch(`/page/${prevPage}`);
     router.prefetch(`/page/${nextPage}`);
   }, [pageNumber, router]);
+}
+
+export function PageLines() {
+  const router = useRouter();
+  const params = useParams();
+  const pageNumber = parseInt(params.id as string);
+
+  usePrefetchAdjacentPagesData(pageNumber, router);
 
   const { handlers: swipeableHandlers } = usePageSwipe({
     currentPageNumber: pageNumber,
