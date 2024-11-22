@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { usePageSwipe } from '@/hooks/use-page-swipe';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useReaderContext } from './use-reader-context';
+import { useReaderContext } from '../../../hooks/use-reader-context';
 
 const CHAPTERS_WITH_NO_BASMALAH = ['1', '9'];
 const UNICODE_SURAH = '\uE000';

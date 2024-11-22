@@ -1,4 +1,4 @@
-import { Chapter, Verse, Part, Juz } from '@quranjs/api';
+import { Chapter, Verse, Juz } from '@quranjs/api';
 import { Dictionary } from 'lodash';
 import { createContext, useContext } from 'react';
 

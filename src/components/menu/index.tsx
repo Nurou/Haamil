@@ -1,7 +1,6 @@
 import { LogIn, LogOut } from 'lucide-react';
 import { supabaseClient } from '@/supabase/client';
-// import { ReaderNavigationMenu } from './reader';
-import { MenuIconWrapper } from './shared';
+import { MenuIconWrapper } from '@/components/shared';
 import { WithTooltip } from '@/components/with-tooltip';
 import {
   AlertDialog,
@@ -15,6 +14,8 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { useSession } from '@/supabase/helpers';
+import { ReaderNavigationMenu } from './reader-navigation-menu';
+import Link from 'next/link';
 
 const SignOut = () => {
   return (
@@ -52,9 +53,9 @@ const SignIn = () => {
   return (
     <WithTooltip content={<p>Sign in</p>}>
       <MenuIconWrapper>
-        {/* <Link to="/sign-in"> */}
-        <LogIn />
-        {/* </Link> */}
+        <Link href="/sign-in">
+          <LogIn />
+        </Link>
       </MenuIconWrapper>
     </WithTooltip>
   );
@@ -66,7 +67,7 @@ export const Menu = () => {
   return (
     <div className="flex items-center justify-center gap-4 h-[50px]">
       {session ? <SignOut /> : <SignIn />}
-      {/* <ReaderNavigationMenu /> */}
+      <ReaderNavigationMenu />
     </div>
   );
 };

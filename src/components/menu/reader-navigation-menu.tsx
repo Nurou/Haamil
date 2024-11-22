@@ -1,4 +1,3 @@
-import { Link, useLoaderData, useLocation } from 'react-router-dom';
 import {
   Sheet,
   SheetContent,
@@ -13,9 +12,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { buttonVariants } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { Chapter, Juz } from '@quranjs/api';
-import { MenuIconWrapper } from './shared';
+import { MenuIconWrapper } from '../shared';
 import { uniqBy } from 'lodash';
 import partToFirstPage from '../../data/part-to-first-page-id.json';
+import { useReaderContext } from '../../hooks/use-reader-context';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const PAGES_COUNT = 604;
 
@@ -59,8 +61,8 @@ const generateNavItems = ({ parts, chapters }: { parts: Juz[]; chapters: Chapter
 };
 
 export const ReaderNavigationMenu = () => {
-  const { parts, chapters } = useLoaderData() as { parts: Juz[]; chapters: Chapter[] };
-  const { pathname } = useLocation();
+  const { parts, chapters } = useReaderContext();
+  const pathname = usePathname();
 
   const navItems = generateNavItems({
     parts,
@@ -99,7 +101,7 @@ export const ReaderNavigationMenu = () => {
                 {item.children.map((child) => (
                   <Link
                     key={child.id}
-                    to={child.href}
+                    href={child.href}
                     className={cn(
                       buttonVariants({ variant: 'ghost' }),
                       'group relative flex h-12 justify-start',

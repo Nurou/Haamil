@@ -1,4 +1,4 @@
-import '@/fonts-hafs-v1.css';
+import '../../../css/fonts-hafs-v1.css';
 
 import { groupBy } from 'lodash';
 
@@ -102,6 +102,8 @@ export default async function Page(props: { params: Params }) {
 
   return (
     <div className={cn(`font-[page${id}]`)}>
+      {' '}
+      {/* maps to the relevant page CSS declaration */}
       <ReaderRenderer {...readerContextData} />
     </div>
   );

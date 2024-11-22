@@ -4,7 +4,7 @@ import { queryClient } from '@/queries';
 import { supabaseClient } from '@/supabase/client';
 import { SessionContextProvider } from '@/supabase/helpers';
 import { Menu } from '@/components/menu';
-import { ReaderContextProvider, ReaderContextType } from './use-reader-context';
+import { ReaderContextProvider, ReaderContextType } from '../../../hooks/use-reader-context';
 
 function getInitialSessionFromBrowserStorage() {
   let initialSession = null;
