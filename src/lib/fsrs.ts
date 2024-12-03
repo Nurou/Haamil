@@ -1,4 +1,10 @@
-import { fsrs, generatorParameters, Rating, Card, RecordLog } from 'ts-fsrs';
+import {
+	type Card,
+	Rating,
+	type RecordLog,
+	fsrs,
+	generatorParameters,
+} from "ts-fsrs";
 
 const params = generatorParameters({ enable_fuzz: true });
 export const f = fsrs(params);
@@ -20,16 +26,16 @@ export const f = fsrs(params);
  * @returns The updated card with new scheduling information
  */
 export function rateCard(card: Card, rating: Rating): Card {
-  const now = new Date();
-  const recordLog: RecordLog = f.repeat(card, now); // schedules the card
-  return recordLog[rating as keyof RecordLog].card;
+	const now = new Date();
+	const recordLog: RecordLog = f.repeat(card, now); // schedules the card
+	return recordLog[rating as keyof RecordLog].card;
 }
 
 export function getNextReviewDate(card: Card): string {
-  const dueDate = new Date(card.due);
-  return dueDate.toLocaleDateString();
+	const dueDate = new Date(card.due);
+	return dueDate.toLocaleDateString();
 }
 
 export { Rating };
 
-export type * from 'ts-fsrs';
+export type * from "ts-fsrs";

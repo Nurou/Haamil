@@ -1,33 +1,35 @@
-import { useMutation } from '@tanstack/react-query';
-import { supabaseClient } from '@/supabase/client';
-import { Card } from 'ts-fsrs';
+import { supabaseClient } from "@/supabase/client";
+import { useMutation } from "@tanstack/react-query";
+import type { Card } from "ts-fsrs";
 
 interface Params {
-  userId: string;
-  pageNumber: string;
-  card: Card;
+	userId: string;
+	pageNumber: string;
+	card: Card;
 }
 
 export function useUpsertPageCardMutation() {
-  return useMutation({
-    mutationFn: async (args: Params) => {
-      const { userId, pageNumber, card } = args;
+	return useMutation({
+		mutationFn: async (args: Params) => {
+			const { userId, pageNumber, card } = args;
 
-      const { data, error } = await supabaseClient
-        .from('card')
-        .upsert(
-          { user_id: userId, page_number: pageNumber, card: card },
-          {
-            onConflict: 'user_id, page_number',
-          }
-        )
-        .select();
+			if (!supabaseClient) return;
 
-      if (error) {
-        throw new Error(error.message);
-      }
+			const { data, error } = await supabaseClient
+				.from("card")
+				.upsert(
+					{ user_id: userId, page_number: pageNumber, card: card },
+					{
+						onConflict: "user_id, page_number",
+					},
+				)
+				.select();
 
-      return data;
-    },
-  });
+			if (error) {
+				throw new Error(error.message);
+			}
+
+			return data;
+		},
+	});
 }
