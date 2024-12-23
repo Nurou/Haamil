@@ -20,7 +20,7 @@ export const useReaderContext = () => {
 	const context = useContext(ReaderContext);
 	if (context === undefined) {
 		throw new Error(
-			`useReaderContext must be used within a ReaderContextProvider.`,
+			"useReaderContext must be used within a ReaderContextProvider.",
 		);
 	}
 

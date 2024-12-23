@@ -91,14 +91,51 @@ function ChapterContent({
 
 type Router = ReturnType<typeof useRouter>;
 
-// Prefetch closest adjacent pages
+interface FontInfo {
+	name: string;
+	url: string;
+}
+
 function usePrefetchAdjacentPagesData(pageNumber: number, router: Router) {
+	const prevPage = pageNumber - 1;
+	const nextPage = pageNumber + 1;
+
+	// Prefetch adjacent pages
 	useEffect(() => {
-		const prevPage = pageNumber - 1;
-		const nextPage = pageNumber + 1;
 		router.prefetch(`/page/${prevPage}`);
 		router.prefetch(`/page/${nextPage}`);
-	}, [pageNumber, router]);
+	}, [prevPage, nextPage, router]);
+
+	// Load fonts for adjacent pages
+	useEffect(() => {
+		const loadFonts = async () => {
+			try {
+				const fonts = getFontsToAdd(prevPage, nextPage);
+				const fontPromises = fonts.map((font) =>
+					new FontFace(font.name, `url(${font.url})`).load(),
+				);
+
+				await Promise.all(fontPromises).then((loadedFonts) => {
+					for (const font of loadedFonts) {
+						document.fonts.add(font);
+					}
+				});
+			} catch (error) {
+				console.error("Error loading fonts:", error);
+			}
+		};
+
+		loadFonts();
+	}, [prevPage, nextPage]);
+}
+
+function getFontsToAdd(prevPage: number, nextPage: number): FontInfo[] {
+	const fonts: FontInfo[] = [];
+	const BASE_URL = "/fonts/hafs/v1/woff2";
+	for (let i = prevPage; i <= nextPage; i++) {
+		fonts.push({ name: `page${i}`, url: `${BASE_URL}/p${i}.woff2` });
+	}
+	return fonts;
 }
 
 export function PageLines() {
