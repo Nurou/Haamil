@@ -1,20 +1,19 @@
 import type { Verse } from "@quranjs/api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { type Dictionary, groupBy } from "lodash";
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import { usePrefetchAdjacentPagesData } from "./hooks/use-prefetch-adjacent-pages-data";
-import { useUpsertPageCardMutation } from "./hooks/use-upsert-page-card-mutation";
+// import { useUpsertPageCardMutation } from "./hooks/use-upsert-page-card-mutation";
 import { cn } from "./lib/utils";
 import "./fonts.css";
 import "./index.css";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+// import { Button } from "@/components/ui/button";
+// import { useState } from "react";
 import { Separator } from "./components/ui/separator";
-import { useGetOrCreatePageCard } from "./hooks/use-get-or-create-page-card";
-import { Rating, getNextReviewDate, rateCard } from "./lib/fsrs";
+// import { useGetOrCreatePageCard } from "./hooks/use-get-or-create-page-card";
+// import { Rating, getNextReviewDate, rateCard } from "./lib/fsrs";
 import { chaptersQueryOptions, versesByPageQueryOptions } from "./queries";
-import { useUser } from "./supabase/helpers";
 
 const CHAPTERS_WITH_NO_BASMALAH = ["1", "9"];
 const UNICODE_SURAH = "\uE000";
@@ -97,21 +96,16 @@ function PageLines({
 
 function Page() {
 	const { pageNumber } = useParams();
-	const user = useUser();
-	const queryClient = useQueryClient();
 
 	const { data: versesByPage } = useQuery(versesByPageQueryOptions(pageNumber));
 	const { data: chapters } = useQuery(chaptersQueryOptions());
-	const { data: card } = useGetOrCreatePageCard(pageNumber);
-	console.log("card", !!card);
+	// const { data: card } = useGetOrCreatePageCard(pageNumber);
 
-	const [isMarkedForReview, setIsMarkedForReview] = useState(false);
+	// const [isMarkedForReview, setIsMarkedForReview] = useState(false);
 
-	const upsertCardMutation = useUpsertPageCardMutation();
+	// const upsertCardMutation = useUpsertPageCardMutation();
 
 	usePrefetchAdjacentPagesData(pageNumber);
-
-	const userId = user?.id;
 
 	if (!versesByPage || !pageNumber || !chapters) {
 		return null;
@@ -119,27 +113,15 @@ function Page() {
 
 	const versesByChapter = groupBy(versesByPage, (verse) => verse.chapterId);
 
-	const onRate = async (rating: Rating) => {
-		if (!userId || !pageNumber || !card) {
-			throw new Error(
-				"Cannot rate the page. Missing user ID, page number, or card data",
-			);
-		}
-		const updatedCard = rateCard(card, rating);
-		upsertCardMutation.mutate(
-			{ userId, pageNumber, card: updatedCard },
-			{
-				onSuccess: () => {
-					// Invalidate and refetch the card query after successful mutation
-					queryClient.invalidateQueries({
-						queryKey: ["card", userId, pageNumber],
-					});
-				},
-			},
-		);
-	};
+	// const onRate = async (rating: Rating) => {
+	// if (!pageNumber || !card) {
+	// 	throw new Error("Cannot rate the page. Missing page number or card data");
+	// }
+	// const updatedCard = rateCard(card, rating);
+	// TODO: upsert mutation
+	// };
 
-	const shouldDisplayRatingButtons = !!card && !!userId && isMarkedForReview;
+	// const shouldDisplayRatingButtons = !!card && isMarkedForReview;
 
 	return (
 		<div className="grid place-items-center whitespace-nowrap my-4">
@@ -151,7 +133,7 @@ function Page() {
 			</div>
 			<div className="flex flex-col items-center mt-16 space-y-2">
 				<div className="flex justify-center space-x-2">
-					{shouldDisplayRatingButtons ? (
+					{/* {shouldDisplayRatingButtons ? (
 						<>
 							<Button
 								variant="default"
@@ -188,19 +170,19 @@ function Page() {
 							onClick={() => setIsMarkedForReview(true)}
 						>
 							Enable review {/* TODO: replace with a toggle */}
-						</Button>
-					)}
+					{/* </Button>
+					)} */}
 				</div>
-				{card ? (
+				{/* {card ? (
 					<p className="text-sm text-gray-600">
 						Next review: {getNextReviewDate(card)}
 					</p>
-				) : null}
-				{upsertCardMutation.isError && (
+				) : null} */}
+				{/* {upsertCardMutation.isError && (
 					<p className="text-sm text-red-600">
 						Error updating card: {upsertCardMutation.error.message}
 					</p>
-				)}
+				)} */}
 			</div>
 		</div>
 	);

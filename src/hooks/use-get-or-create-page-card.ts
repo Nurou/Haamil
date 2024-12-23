@@ -1,64 +1,61 @@
-import { supabaseClient } from "@/supabase/client";
-import { useUser } from "@/supabase/helpers";
-import { useQuery } from "@tanstack/react-query";
-import { type Card, createEmptyCard } from "ts-fsrs";
+// import { useQuery } from "@tanstack/react-query";
+// import { type Card, createEmptyCard } from "ts-fsrs";
 
-async function getOrCreatePageCard(
-	userId: string,
-	pageNumber: string,
-): Promise<Card> {
-	if (!supabaseClient) return createEmptyCard();
+// async function getOrCreatePageCard(
+// 	userId: string,
+// 	pageNumber: string,
+// ): Promise<Card> {
 
-	const { data, error } = await supabaseClient
-		.from("card")
-		.select("*")
-		.eq("user_id", userId)
-		.eq("page_number", pageNumber)
-		.single();
+// 	const { data, error } = await supabaseClient
+// 		.from("card")
+// 		.select("*")
+// 		.eq("user_id", userId)
+// 		.eq("page_number", pageNumber)
+// 		.single();
 
-	console.log(error);
+// 	console.log(error);
 
-	if (error && error.code !== "PGRST116") {
-		console.error("Error fetching card:", error);
-		throw error;
-	}
+// 	if (error && error.code !== "PGRST116") {
+// 		console.error("Error fetching card:", error);
+// 		throw error;
+// 	}
 
-	if (data) return data.card as Card;
+// 	if (data) return data.card as Card;
 
-	const newCard = createEmptyCard();
-	// upsert to ensure uniqueness
-	await upsertCard(userId, pageNumber, newCard);
-	return newCard;
-}
+// 	const newCard = createEmptyCard();
+// 	// upsert to ensure uniqueness
+// 	await upsertCard(userId, pageNumber, newCard);
+// 	return newCard;
+// }
 
-async function upsertCard(
-	userId: string,
-	pageNumber: string,
-	card: Card,
-): Promise<void> {
-	if (!supabaseClient) return;
-	const { error } = await supabaseClient
-		.from("card")
-		.upsert(
-			{ user_id: userId, page_number: pageNumber, card: card },
-			{ onConflict: "user_id, page_number" },
-		);
+// async function upsertCard(
+// 	userId: string,
+// 	pageNumber: string,
+// 	card: Card,
+// ): Promise<void> {
+// 	if (!supabaseClient) return;
+// 	const { error } = await supabaseClient
+// 		.from("card")
+// 		.upsert(
+// 			{ user_id: userId, page_number: pageNumber, card: card },
+// 			{ onConflict: "user_id, page_number" },
+// 		);
 
-	if (error) {
-		console.error("Error saving card:", error);
-	}
-}
+// 	if (error) {
+// 		console.error("Error saving card:", error);
+// 	}
+// }
 
-export function useGetOrCreatePageCard(pageNumber: string | undefined) {
-	const user = useUser();
-	const userId = user?.id;
+// export function useGetOrCreatePageCard(pageNumber: string | undefined) {
+// 	const user = useUser();
+// 	const userId = user?.id;
 
-	return useQuery({
-		queryKey: ["card", userId, pageNumber],
-		queryFn: async () => {
-			if (!userId || !pageNumber) return null;
-			return await getOrCreatePageCard(userId, pageNumber);
-		},
-		enabled: !!userId && !!pageNumber,
-	});
-}
+// 	return useQuery({
+// 		queryKey: ["card", userId, pageNumber],
+// 		queryFn: async () => {
+// 			if (!userId || !pageNumber) return null;
+// 			return await getOrCreatePageCard(userId, pageNumber);
+// 		},
+// 		enabled: !!userId && !!pageNumber,
+// 	});
+// }
