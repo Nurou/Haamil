@@ -9,7 +9,7 @@ import { PageLines } from "./page-lines";
 
 function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="flex flex-col h-screen border-2 border-red-500">
+		<div className="flex flex-col h-screen">
 			<main className="flex-grow flex items-center justify-center">
 				{children}
 			</main>
