@@ -5,7 +5,7 @@ WORKDIR /app
 RUN npm install --global pnpm
 COPY . .
 RUN pnpm install --no-frozen-lockfile
-RUN pnpm --filter @web build
+RUN pnpm --filter @haamil/web build
 
 # Final production image
 FROM nginx:alpine

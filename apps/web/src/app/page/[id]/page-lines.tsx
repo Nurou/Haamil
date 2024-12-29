@@ -1,11 +1,11 @@
-import { Separator } from "@/components/ui/separator";
-import { usePageSwipe } from "@/hooks/use-page-swipe";
-import { cn } from "@/lib/utils";
+import { Separator } from "@/web/components/ui/separator";
+import { usePageSwipe } from "@/web/hooks/use-page-swipe";
+import { cn } from "@/web/lib/utils";
 import type { Verse } from "@quranjs/api";
 import { groupBy } from "lodash";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useReaderContext } from "../../../hooks/use-reader-context";
+import { useReaderContext } from "@/web/hooks/use-reader-context";
 
 const CHAPTERS_WITH_NO_BASMALAH = ["1", "9"];
 const UNICODE_SURAH = "\uE000";
@@ -102,8 +102,12 @@ function usePrefetchAdjacentPagesData(pageNumber: number, router: Router) {
 
 	// Prefetch adjacent pages
 	useEffect(() => {
-		router.prefetch(`/page/${prevPage}`);
-		router.prefetch(`/page/${nextPage}`);
+		if (prevPage > 0) {
+			router.prefetch(`/page/${prevPage}`);
+		}
+		if (nextPage <= 604) {
+			router.prefetch(`/page/${nextPage}`);
+		}
 	}, [prevPage, nextPage, router]);
 
 	// Load fonts for adjacent pages
@@ -125,7 +129,9 @@ function usePrefetchAdjacentPagesData(pageNumber: number, router: Router) {
 			}
 		};
 
-		loadFonts();
+		if (prevPage > 0 && nextPage <= 604) {
+			loadFonts();
+		}
 	}, [prevPage, nextPage]);
 }
 
@@ -142,6 +148,13 @@ export function PageLines() {
 	const router = useRouter();
 	const params = useParams();
 	const pageNumber = Number.parseInt(params.id as string);
+
+
+	useEffect(() => {
+		fetch(`/api`).then(res => res.json()).then(res => {
+			console.log(res)
+		})
+	},[])
 
 	usePrefetchAdjacentPagesData(pageNumber, router);
 

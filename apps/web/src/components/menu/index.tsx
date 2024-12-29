@@ -1,4 +1,4 @@
-import { MenuIconWrapper } from "@/components/shared";
+import { MenuIconWrapper } from "@/web/components/shared";
 // import {
 // 	AlertDialog,
 // 	AlertDialogAction,
@@ -9,8 +9,8 @@ import { MenuIconWrapper } from "@/components/shared";
 // 	AlertDialogHeader,
 // 	AlertDialogTitle,
 // 	AlertDialogTrigger,
-// } from "@/components/ui/alert-dialog";
-import { WithTooltip } from "@/components/with-tooltip";
+// } from "@/web/components/ui/alert-dialog";
+import { WithTooltip } from "@/web/components/with-tooltip";
 import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { ReaderNavigationMenu } from "./reader-navigation-menu";

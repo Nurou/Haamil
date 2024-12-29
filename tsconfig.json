@@ -37,7 +37,7 @@
       "path": "apps/web"
     },
     {
-      "path": "apps/server"
+      "path": "apps/api"
     }
   ]
 }
