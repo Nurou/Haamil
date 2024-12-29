@@ -1,14 +1,13 @@
-import "../../../css/fonts-hafs-v1.css";
+import "@/web/css/fonts-hafs-v1.css";
 
 import { groupBy } from "lodash";
-
-import { BASE_URL_QDC_CDN } from "@/constants";
-import { cn, toCamelCase } from "@/lib/utils";
+import { BASE_URL_QDC_CDN } from "@/web/constants";
+import { cn, toCamelCase } from "@/web/lib/utils";
 import {
 	chaptersQueryOptions,
 	partsQueryOptions,
 	queryClient,
-} from "@/queries";
+} from "@/web/queries";
 import type { Verse } from "@quranjs/api";
 import ReaderRenderer from "./reader-spa";
 

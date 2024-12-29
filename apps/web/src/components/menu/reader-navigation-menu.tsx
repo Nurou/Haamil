@@ -1,14 +1,14 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/web/lib/utils";
 import type { Chapter, Juz } from "@quranjs/api";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { uniqBy } from "lodash";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import partToFirstPage from "../../data/part-to-first-page-id.json";
-import { useReaderContext } from "../../hooks/use-reader-context";
-import { MenuIconWrapper } from "../shared";
-import { buttonVariants } from "../ui/button";
+import partToFirstPage from "@/web/data/part-to-first-page-id.json";
+import { useReaderContext } from "@/web/hooks/use-reader-context";
+import { MenuIconWrapper } from "@/web/components/shared";
+import { buttonVariants } from "@/web/components/ui/button";
 import {
 	Sheet,
 	SheetContent,
@@ -16,8 +16,8 @@ import {
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
-} from "../ui/sheet";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+} from "@/web/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/web/components/ui/tabs";
 
 const PAGES_COUNT = 604;
 

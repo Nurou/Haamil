@@ -9,7 +9,7 @@ Haamil is an app that provides a smart way of retaining the Quran in memory. It 
 
 ## Tech
 
-- SPA with SSG pre-rendering (Next.js)
+- Pre-rendered (SSG) HTML (Next.js)
 - TailwindCSS + shadcn
 - Quran.com APIs
 

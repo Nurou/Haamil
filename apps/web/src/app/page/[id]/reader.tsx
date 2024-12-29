@@ -1,5 +1,5 @@
-import { Menu } from "@/components/menu";
-import { queryClient } from "@/queries";
+import { Menu } from "@/web/components/menu";
+import { queryClient } from "@/web/queries";
 import { QueryClientProvider } from "@tanstack/react-query";
 import {
 	ReaderContextProvider,
