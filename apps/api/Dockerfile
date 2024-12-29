@@ -5,7 +5,7 @@ FROM base AS build
 RUN apk add --no-cache gcompat
 WORKDIR /app
 
-RUN npm install --global pnpm
+RUN npm install --global pnpm@9.12.1
 COPY . .
 RUN pnpm install --no-frozen-lockfile
 RUN pnpm --filter @haamil/api build
