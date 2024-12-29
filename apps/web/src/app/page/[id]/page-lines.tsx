@@ -151,7 +151,7 @@ export function PageLines() {
 
 
 	useEffect(() => {
-		fetch(`/api`).then(res => res.json()).then(res => {
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/api`).then(res => res.json()).then(res => {
 			console.log(res)
 		})
 	},[])

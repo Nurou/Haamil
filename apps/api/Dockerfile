@@ -23,6 +23,6 @@ COPY --from=build --chown=hono:nodejs /app/apps/api/dist /app/apps/api/dist
 COPY --from=build --chown=hono:nodejs /app/apps/api/package.json /app/apps/api/package.json
 
 USER hono
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["node", "/app/apps/api/dist/index.js"]
