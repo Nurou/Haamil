@@ -1,7 +1,7 @@
 import "@/web/css/fonts-hafs-v1.css";
 
 import { groupBy } from "lodash";
-import { BASE_URL_QDC_CDN } from "@/web/constants";
+import { BASE_URL_QDC_CDN } from "@/web/shared/constants";
 import { cn, toCamelCase } from "@/web/lib/utils";
 import {
 	chaptersQueryOptions,

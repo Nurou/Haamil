@@ -6,6 +6,7 @@ import { groupBy } from "lodash";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { usePageReaderContext } from "@/web/hooks/use-page-reader-context";
+import { READER_PAGES_COUNT } from "../../../shared/constants";
 
 const CHAPTERS_WITH_NO_BASMALAH = ["1", "9"];
 const UNICODE_SURAH = "\uE000";
@@ -102,10 +103,13 @@ function usePrefetchAdjacentPagesData(pageNumber: number, router: Router) {
 
 	// Prefetch adjacent pages
 	useEffect(() => {
-		if (prevPage > 0) {
+		const shouldPrefetchPrevPage = prevPage > 0;
+		const shouldPrefetchNextPage = nextPage <= READER_PAGES_COUNT;
+
+		if (shouldPrefetchPrevPage) {
 			router.prefetch(`/page/${prevPage}`);
 		}
-		if (nextPage <= 604) {
+		if (shouldPrefetchNextPage) {
 			router.prefetch(`/page/${nextPage}`);
 		}
 	}, [prevPage, nextPage, router]);
@@ -129,7 +133,7 @@ function usePrefetchAdjacentPagesData(pageNumber: number, router: Router) {
 			}
 		};
 
-		if (prevPage > 0 && nextPage <= 604) {
+		if (prevPage > 0 && nextPage <= READER_PAGES_COUNT) {
 			loadFonts();
 		}
 	}, [prevPage, nextPage]);

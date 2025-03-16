@@ -18,8 +18,7 @@ import {
 	SheetTrigger,
 } from "@/web/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/web/components/ui/tabs";
-
-const PAGES_COUNT = 604;
+import { READER_PAGES_COUNT } from "@/web/shared/constants";
 
 const generateNavItems = ({
 	parts,
@@ -55,7 +54,7 @@ const generateNavItems = ({
 		{
 			id: "page",
 			title: "Page",
-			children: Array.from({ length: PAGES_COUNT }, (_, i) => ({
+			children: Array.from({ length: READER_PAGES_COUNT }, (_, i) => ({
 				id: i + 1,
 				title: `Page ${i + 1}`,
 				href: `/${i + 1}`,
