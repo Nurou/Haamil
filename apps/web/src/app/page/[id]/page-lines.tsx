@@ -5,7 +5,7 @@ import type { Verse } from "@quranjs/api";
 import { groupBy } from "lodash";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useReaderContext } from "@/web/hooks/use-reader-context";
+import { usePageReaderContext } from "@/web/hooks/use-page-reader-context";
 
 const CHAPTERS_WITH_NO_BASMALAH = ["1", "9"];
 const UNICODE_SURAH = "\uE000";
@@ -56,7 +56,7 @@ function ChapterContent({
 	chapterId: string;
 	pageHasMultipleChapters: boolean;
 }) {
-	const { versesByChapter } = useReaderContext();
+	const { versesByChapter } = usePageReaderContext();
 	const chapterVerses = versesByChapter[chapterId];
 	const hasFirstVerseOfChapter = chapterVerses.some(
 		(verse) => verse.verseNumber === 1,
@@ -144,17 +144,10 @@ function getFontsToAdd(prevPage: number, nextPage: number): FontInfo[] {
 	return fonts;
 }
 
-export function PageLines() {
+export function PageReaderLines() {
 	const router = useRouter();
 	const params = useParams();
 	const pageNumber = Number.parseInt(params.id as string);
-
-
-	useEffect(() => {
-		fetch(`${process.env.NEXT_PUBLIC_API_URL}/api`).then(res => res.json()).then(res => {
-			console.log(res)
-		})
-	},[])
 
 	usePrefetchAdjacentPagesData(pageNumber, router);
 
@@ -165,7 +158,7 @@ export function PageLines() {
 		},
 	});
 
-	const { versesByChapter } = useReaderContext();
+	const { versesByChapter } = usePageReaderContext();
 
 	const chapterIds = Object.keys(versesByChapter);
 	const pageHasMultipleChapters = chapterIds.length > 1;

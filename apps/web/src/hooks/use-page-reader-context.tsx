@@ -12,29 +12,31 @@ const initialState: {
 	versesByChapter: {},
 } as const;
 
-export type ReaderContextType = typeof initialState;
+export type PageReaderContextType = typeof initialState;
 
-const ReaderContext = createContext<ReaderContextType>(initialState);
+const PageReaderContext = createContext<PageReaderContextType>(initialState);
 
-export const useReaderContext = () => {
-	const context = useContext(ReaderContext);
+export const usePageReaderContext = () => {
+	const context = useContext(PageReaderContext);
 	if (context === undefined) {
 		throw new Error(
-			"useReaderContext must be used within a ReaderContextProvider.",
+			"usePageReaderContext must be used within a PageReaderContextProvider.",
 		);
 	}
 
 	return context;
 };
 
-export const ReaderContextProvider = ({
+export const PageReaderContextProvider = ({
 	children,
 	value,
 }: {
 	children: React.ReactNode;
-	value: ReaderContextType;
+	value: PageReaderContextType;
 }) => {
 	return (
-		<ReaderContext.Provider value={value}>{children}</ReaderContext.Provider>
+		<PageReaderContext.Provider value={value}>
+			{children}
+		</PageReaderContext.Provider>
 	);
 };

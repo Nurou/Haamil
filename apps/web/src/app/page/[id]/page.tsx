@@ -9,7 +9,7 @@ import {
 	queryClient,
 } from "@/web/queries";
 import type { Verse } from "@quranjs/api";
-import ReaderRenderer from "./reader-spa";
+import PageReaderSpa from "./page-reader-spa";
 
 enum MushafToQueryParamCode {
 	HAFS_V1 = "2",
@@ -82,34 +82,30 @@ function groupVersesByPage(verses: Verse[]) {
 	return groupBy(verses, (verse) => verse.chapterId);
 }
 
-async function getReaderContextData(id: string) {
+async function getPageRenderData(id: string) {
 	const [versesByChapter, parts, chapters] = await Promise.all([
 		getVersesByPage(id).then(groupVersesByPage),
 		getParts(),
 		getChapters(),
 	]);
 
-	const readerContext = {
+	return {
 		versesByChapter,
 		parts,
 		chapters,
 	};
-
-	return readerContext;
 }
 
 type Params = Promise<{ id: string }>;
 
 export default async function Page(props: { params: Params }) {
-	const { id } = await props.params;
-
-	const readerContextData = await getReaderContextData(id);
+	const { id: pageId } = await props.params;
+	const pageRenderData = await getPageRenderData(pageId);
 
 	return (
-		<div className={cn(`font-[page${id}]`)}>
-			{" "}
+		<div className={cn(`font-[page${pageId}]`)}>
 			{/* maps to the relevant page CSS declaration */}
-			<ReaderRenderer {...readerContextData} />
+			<PageReaderSpa {...pageRenderData} />
 		</div>
 	);
 }

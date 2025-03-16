@@ -6,7 +6,7 @@ import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import partToFirstPage from "@/web/data/part-to-first-page-id.json";
-import { useReaderContext } from "@/web/hooks/use-reader-context";
+import { usePageReaderContext } from "@/web/hooks/use-page-reader-context";
 import { MenuIconWrapper } from "@/web/components/shared";
 import { buttonVariants } from "@/web/components/ui/button";
 import {
@@ -65,7 +65,7 @@ const generateNavItems = ({
 };
 
 export const ReaderNavigationMenu = () => {
-	const { parts, chapters } = useReaderContext();
+	const { parts, chapters } = usePageReaderContext();
 	const pathname = usePathname();
 
 	const navItems = generateNavItems({
