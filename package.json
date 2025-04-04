@@ -13,7 +13,6 @@
     "dev": "pnpm run -r --parallel --aggregate-output dev",
     "build": "pnpm run -r build",
     "test": "pnpm run -r --parallel test",
-    "lint": "pnpm run -r --parallel lint",
     "deploy": "pnpm build && pnpm run -r deploy"
   },
   "packageManager": "pnpm@9.12.1"

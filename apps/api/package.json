@@ -8,8 +8,6 @@
     "dev": "NODE_ENV=development tsx watch src/index.ts",
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "lint": "biome check",
-    "lint:fix": "biome check --write --unsafe",
     "test": "cross-env NODE_ENV=test vitest"
   },
   "dependencies": {

@@ -11,8 +11,7 @@
     "scn": "pnpm dlx shadcn@latest add",
     "format": "prettier --write .",
     "serve": "pnpm dlx serve@latest out",
-    "build-serve": "pnpm build && pnpm serve",
-    "check": "pnpm biome check --write ."
+    "build-serve": "pnpm build && pnpm serve"
   },
   "dependencies": {
     "@quranjs/api": "^1.7.1",
@@ -40,7 +39,6 @@
     "ts-fsrs": "^4.4.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
     "@tanstack/eslint-plugin-query": "^5.51.10",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20.14.12",
