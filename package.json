@@ -15,5 +15,5 @@
     "test": "pnpm run -r --parallel test",
     "deploy": "pnpm build && pnpm run -r deploy"
   },
-  "packageManager": "pnpm@9.12.1"
+  "packageManager": "pnpm@latest"
 }
