@@ -1,5 +1,4 @@
 {
-  "extends": "../../tsconfig.test.json",
   "compilerOptions": {
     "lib": ["ES2023", "DOM"],
     "jsx": "react-jsx",
@@ -13,7 +12,15 @@
     "rootDir": "./src",
     "noEmit": false,
     "allowJs": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
