@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "scn": "pnpm dlx shadcn@latest add",
     "format": "prettier --write .",
     "serve": "pnpm dlx serve@latest out",
-    "build-serve": "pnpm build && pnpm serve"
+    "build-serve": "NODE_ENV=production pnpm build && pnpm serve"
   },
   "dependencies": {
     "@quranjs/api": "^1.7.1",
