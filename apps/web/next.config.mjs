@@ -5,6 +5,14 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true, // Needed to enable navigating to <page> instead of <page.html>
+  async rewrites() {
+    return [
+      {
+        source: '/api',
+        destination: 'http://localhost:3001/api',
+      },
+    ]
+  },
 };
 
 export default nextConfig;

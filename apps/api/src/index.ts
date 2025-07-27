@@ -4,9 +4,12 @@ import { cors } from "hono/cors";
 
 const app = new Hono();
 
-const corsOrigin = process.env.WEB_URL ? [process.env.WEB_URL] : ["*"];
-
-app.use("/*", cors({ origin: corsOrigin }));
+app.use(
+  cors({
+    // Only frontend is allowed
+    origin: ["http://localhost:3000"],
+  })
+);
 app.get("/api", (c) => {
   return c.json({
     message: "Hello Hono!",
