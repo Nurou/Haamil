@@ -11,7 +11,8 @@
     "scn": "pnpm dlx shadcn@latest add",
     "format": "prettier --write .",
     "serve": "pnpm dlx serve@latest out",
-    "build-serve": "NODE_ENV=production pnpm build && pnpm serve"
+    "build-serve": "NODE_ENV=production pnpm build && pnpm serve",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@quranjs/api": "^1.7.1",

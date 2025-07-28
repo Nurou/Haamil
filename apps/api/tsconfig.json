@@ -9,6 +9,7 @@
     },
     "typeRoots": ["./node_modules/@types", "./node_modules/@cloudflare"],
     "types": [
+      "node",
       "workers-types/2023-07-01",
     ]
   }

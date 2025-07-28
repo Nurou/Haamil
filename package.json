@@ -13,7 +13,8 @@
     "dev": "pnpm run -r --parallel --aggregate-output dev",
     "build": "pnpm run -r build",
     "test": "pnpm run -r --parallel test",
-    "deploy": "pnpm build && pnpm run -r deploy"
+    "deploy": "pnpm build && pnpm run -r deploy",
+    "typecheck": "pnpm run -r typecheck"
   },
   "packageManager": "pnpm@9.12.1"
 }
