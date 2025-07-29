@@ -14,7 +14,6 @@ const nextConfig = {
       },
     ]
   },
-  distDir: '../api/public', // Have API serve static files from here
 };
 
 export default nextConfig;

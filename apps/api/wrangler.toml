@@ -1,0 +1,8 @@
+name = "haamil"
+main = "src/app.ts"
+compatibility_date = "2025-07-28"
+compatibility_flags = [ "nodejs_compat" ]
+
+
+[vars]
+LOG_LEVEL = "debug"
