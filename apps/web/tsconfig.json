@@ -1,8 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": [
@@ -35,7 +33,8 @@
       "@/web/*": [
         "src/*"
       ]
-    }
+    },
+    "incremental": true
   },
   "include": [
     "./src",
