@@ -1,4 +1,4 @@
-name = "haamil"
+name = "haamil-api"
 main = "src/app.ts"
 compatibility_date = "2025-07-28"
 compatibility_flags = [ "nodejs_compat" ]

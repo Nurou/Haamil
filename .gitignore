@@ -24,9 +24,9 @@ out
 *.sln
 *.sw?
 
-.env
-!.env.local
+.env.*
 
 .next
 next-env.d.ts
 .turbo
+apps/api/.env.local
