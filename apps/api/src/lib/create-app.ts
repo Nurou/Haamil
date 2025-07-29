@@ -4,14 +4,30 @@ import type { AppOpenAPI } from "./types";
 
 import { BASE_PATH } from "./constants";
 import createRouter from "./create-router";
+import { cors } from "hono/cors";
 
 export default function createApp() {
   const app = createRouter()
+    .use(
+      "*",
+      cors({
+        origin: (origin, c) => {
+          const allowedOrigins = c.env.ALLOWED_ORIGINS?.split(",") || [];
+          if (!origin) {
+            return "*";
+          }
+
+          const isAllowed = allowedOrigins.includes(origin);
+
+          return isAllowed ? origin : ""; // Empty string denies invalid origins
+        },
+        credentials: true,
+      })
+    )
     .use("*", async (c, next) => {
       if (c.req.path.startsWith(BASE_PATH)) {
         return next();
       }
-      // Return 404 for any requests not to /api
       return c.notFound();
     })
     .basePath(BASE_PATH) as AppOpenAPI;

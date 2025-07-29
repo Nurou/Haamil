@@ -7,15 +7,14 @@ import {
 } from "../../../hooks/use-page-reader-context";
 import { PageReaderLines } from "./page-lines";
 import { useEffect, useState } from "react";
+import apiClient from "@/web/lib/api-client";
 
 function PageReaderLayout({ children }: { children: React.ReactNode }) {
-  console.log("PageReaderLayout");
-  /* make a request to /api  */
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/api");
-      const data = await response.json();
+      const res = await apiClient.api.$get();
+      const data = await res.json();
       setData(data);
     };
     fetchData();
