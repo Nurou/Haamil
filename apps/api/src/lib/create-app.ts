@@ -6,17 +6,19 @@ import { BASE_PATH } from "./constants";
 import createRouter from "./create-router";
 import { cors } from "hono/cors";
 
+import { env } from "hono/adapter";
+
 export default function createApp() {
   const app = createRouter()
     .use(
       "*",
       cors({
         origin: (origin, c) => {
-          const allowedOrigins = c.env.ALLOWED_ORIGINS?.split(",") || [];
+          const { ALLOWED_ORIGINS } = env(c);
+          const allowedOrigins = ALLOWED_ORIGINS?.split(",") || [];
           if (!origin) {
             return "*";
           }
-
           const isAllowed = allowedOrigins.includes(origin);
 
           return isAllowed ? origin : ""; // Empty string denies invalid origins
