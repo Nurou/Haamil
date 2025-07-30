@@ -1,4 +1,5 @@
 import type { OpenAPIHono, RouteConfig, RouteHandler } from "@hono/zod-openapi";
+import type { Fetcher } from "@cloudflare/workers-types";
 
 import type { BASE_PATH } from "./constants";
 

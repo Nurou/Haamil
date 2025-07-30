@@ -7,12 +7,12 @@
     "./routes": "./src/routes/index.ts"
   },
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "dev": "NODE_ENV=development tsx watch src/index.ts",
     "dev:worker": "wrangler dev --port 3001 --local --live-reload",
     "deploy:worker": "wrangler deploy",
     "build:worker": "wrangler build",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "typecheck": "tsc --noEmit",
     "test": "cross-env NODE_ENV=test vitest"
   },

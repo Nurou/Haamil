@@ -1,9 +1,12 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "ESNext",
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "baseUrl": "./",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "paths": {
       "@/api/*": ["./src/*"]
     },
@@ -11,6 +14,13 @@
     "types": [
       "node",
       "workers-types/2023-07-01",
-    ]
+    ],
+    "strict": true,
+    "outDir": "./dist",
+
+    "skipLibCheck": true
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true
   }
 }
