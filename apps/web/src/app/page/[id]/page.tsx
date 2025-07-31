@@ -102,10 +102,5 @@ export default async function Page(props: { params: Params }) {
   const { id: pageId } = await props.params;
   const pageRenderData = await getPageRenderData(pageId);
 
-  return (
-    <div className={cn(`font-[page${pageId}]`)}>
-      {/* maps to the relevant page CSS declaration */}
-      <PageReaderSpa {...pageRenderData} />
-    </div>
-  );
+  return <PageReaderSpa {...pageRenderData} pageId={pageId} />;
 }

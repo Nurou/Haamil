@@ -1,14 +1,14 @@
 import type { OpenAPIHono, RouteConfig, RouteHandler } from "@hono/zod-openapi";
-import type { Fetcher } from "@cloudflare/workers-types";
 
 import type { BASE_PATH } from "./constants";
 
 export type AppEnv = {
   Bindings: {
-    AUTH_SECRET: string;
-    GITHUB_CLIENT_ID: string;
-    GITHUB_CLIENT_SECRET: string;
-    ASSETS: Fetcher;
+    PORT: string;
+    DATABASE_URL: string;
+    BETTER_AUTH_SECRET: string;
+    BETTER_AUTH_URL: string;
+    ALLOWED_ORIGINS: string;
   };
 };
 

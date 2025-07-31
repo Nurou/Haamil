@@ -5,8 +5,7 @@ import type { AppOpenAPI } from "./types";
 import { BASE_PATH } from "./constants";
 import createRouter from "./create-router";
 import { cors } from "hono/cors";
-
-import { env } from "hono/adapter";
+import { env } from "@/api/lib/env";
 
 export default function createApp() {
   const app = createRouter()
