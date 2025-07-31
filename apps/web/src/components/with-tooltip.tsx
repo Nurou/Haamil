@@ -15,7 +15,7 @@ export const WithTooltip = ({
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipTrigger>{children}</TooltipTrigger>
         <TooltipContent>{content}</TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -14,6 +14,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/web/components/ui/tabs";
+import { WithTooltip } from "@/web/components/with-tooltip";
 import partToFirstPage from "@/web/data/part-to-first-page-id.json";
 import { usePageReaderContext } from "@/web/hooks/use-page-reader-context";
 import { cn } from "@/web/lib/utils";
@@ -84,11 +85,11 @@ export const ReaderNavigationMenu = () => {
     <Sheet>
       <SheetTrigger>
         {/* TODO: can't use Shadcn tooltip as it nests a button inside the sheet trigger button */}
-        {/* <WithTooltip content={<p>Open reader menu</p>}> */}
         <MenuIconWrapper>
-          <BookOpen />
+          <WithTooltip content={<p>Open reader menu</p>}>
+            <BookOpen />
+          </WithTooltip>
         </MenuIconWrapper>
-        {/* </WithTooltip> */}
       </SheetTrigger>
       {/* TODO: place this to the left on larger screens  */}
       <SheetContent
