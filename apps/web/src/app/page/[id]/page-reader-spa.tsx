@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import type { PageReaderContextType } from "../../../hooks/use-page-reader-context";
+import type { PageReaderContextType } from "@/web/hooks/use-page-reader-context";
 
 const PageReader = dynamic(() => import("./page-reader"), { ssr: false }); // disabling server-side rendering results in a SPA
 

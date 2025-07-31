@@ -1,12 +1,3 @@
-import { cn } from "@/web/lib/utils";
-import type { Chapter, Juz } from "@quranjs/api";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { uniqBy } from "lodash";
-import { BookOpen } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import partToFirstPage from "@/web/data/part-to-first-page-id.json";
-import { usePageReaderContext } from "@/web/hooks/use-page-reader-context";
 import { MenuIconWrapper } from "@/web/components/shared";
 import { buttonVariants } from "@/web/components/ui/button";
 import {
@@ -23,7 +14,16 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/web/components/ui/tabs";
+import partToFirstPage from "@/web/data/part-to-first-page-id.json";
+import { usePageReaderContext } from "@/web/hooks/use-page-reader-context";
+import { cn } from "@/web/lib/utils";
 import { READER_PAGES_COUNT } from "@/web/shared/constants";
+import type { Chapter, Juz } from "@quranjs/api";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { uniqBy } from "lodash";
+import { BookOpen } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const generateNavItems = ({
   parts,

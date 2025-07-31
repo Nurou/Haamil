@@ -14,13 +14,13 @@ function PageReaderLayout({
   pageId,
 }: PropsWithChildren<{ pageId: string }>) {
   return (
-    <div
-      className={cn(
-        "flex flex-col h-screen max-w-screen-sm mx-auto",
-        `font-[page${pageId}]`
-      )}
-    >
-      <main className="flex-grow flex items-center justify-center">
+    <div className={cn("flex flex-col h-screen max-w-screen-sm mx-auto")}>
+      <main
+        className={cn(
+          "flex-grow flex items-center justify-center",
+          `font-[page${pageId}]`
+        )}
+      >
         {children}
       </main>
       <Menu />
