@@ -1,9 +1,8 @@
 import { betterAuth } from "better-auth";
 import { config as dotenvConfig } from "dotenv";
 import { Pool } from "pg";
-dotenvConfig();
 
-console.log(process.env.DATABASE_URL);
+dotenvConfig();
 
 export const auth = betterAuth({
   database: new Pool({
@@ -11,6 +10,12 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    },
   },
   trustedOrigins: process.env.ALLOWED_ORIGINS?.split(",") || [],
   secret: process.env.BETTER_AUTH_SECRET,

@@ -84,9 +84,8 @@ export const ReaderNavigationMenu = () => {
   return (
     <Sheet>
       <SheetTrigger>
-        {/* TODO: can't use Shadcn tooltip as it nests a button inside the sheet trigger button */}
         <MenuIconWrapper>
-          <WithTooltip content={<p>Open reader menu</p>}>
+          <WithTooltip content={<p>Open reader menu</p>} triggerAsChild>
             <BookOpen />
           </WithTooltip>
         </MenuIconWrapper>

@@ -1,12 +1,11 @@
 import { MenuIconWrapper } from "@/web/components/shared";
 
 import { WithTooltip } from "@/web/components/with-tooltip";
+import { authClient } from "@/web/lib/auth-client";
 import { LogIn, LogOut } from "lucide-react";
 import Link from "next/link";
-import { ReaderNavigationMenu } from "./reader-navigation-menu";
-import { authClient } from "@/web/lib/auth-client";
-import { Button } from "@/web/components/ui/button";
 import { usePathname } from "next/navigation";
+import { ReaderNavigationMenu } from "./reader-navigation-menu";
 
 const SignIn = () => {
   const currentUrl = usePathname();
@@ -25,13 +24,7 @@ const SignOut = () => {
   return (
     <WithTooltip content={<span>Sign out</span>}>
       <MenuIconWrapper>
-        <Button
-          className="hover:bg-transparent"
-          variant="ghost"
-          onClick={() => authClient.signOut()}
-        >
-          <LogOut />
-        </Button>
+        <LogOut onClick={() => authClient.signOut()} />
       </MenuIconWrapper>
     </WithTooltip>
   );

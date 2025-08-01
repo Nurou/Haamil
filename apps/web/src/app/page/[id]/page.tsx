@@ -1,11 +1,7 @@
 import "@/web/css/fonts-hafs-v1.css";
 
 import { toCamelCase } from "@/web/lib/utils";
-import {
-  chaptersQueryOptions,
-  partsQueryOptions,
-  queryClient,
-} from "@/web/queries";
+import { getChapters, getParts } from "@/web/queries";
 import { BASE_URL_QDC_CDN } from "@/web/shared/constants";
 import type { Verse } from "@quranjs/api";
 import { groupBy } from "lodash";
@@ -14,18 +10,6 @@ import PageReaderSpa from "./page-reader-spa";
 enum MushafToQueryParamCode {
   HAFS_V1 = "2",
   HAFS_V2 = "1",
-}
-
-async function getParts() {
-  const parts = await queryClient.fetchQuery(partsQueryOptions());
-
-  return parts;
-}
-
-async function getChapters() {
-  const chapters = await queryClient.fetchQuery(chaptersQueryOptions());
-
-  return chapters;
 }
 
 export function generateStaticParams() {

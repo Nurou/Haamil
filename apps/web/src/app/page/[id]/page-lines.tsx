@@ -19,7 +19,7 @@ function getChapterNameUnicode(chapterId: string) {
 
 function Basmalah() {
   return (
-    <p dir="rtl" className="flex justify-center w-full mb-2">
+    <p dir="rtl" className="flex justify-center mb-2">
       <span>{BASMALAH_UNICODE}</span>
     </p>
   );
@@ -38,7 +38,7 @@ function ChapterLines({ verses }: { verses: Verse[] }) {
       <p
         dir="rtl"
         key={`${lineNumber}-${words.length}`}
-        className="flex justify-center w-full"
+        className="flex justify-center"
       >
         {words.map((word) => {
           return (
@@ -69,8 +69,8 @@ function ChapterContent({
     <div
       key={`${chapterId}-${chapterVerses.length}`}
       className={cn(
-        "grid gap-2",
-        "text-xl sm:text-2xl md:text-3xl lg:text-4xl"
+        "grid gap-2 h-full",
+        "text-[clamp(1rem,calc(100vw*0.05),2rem)]"
       )}
     >
       {hasFirstVerseOfChapter ? (
@@ -168,7 +168,7 @@ export function PageReaderLines() {
   const pageHasMultipleChapters = chapterIds.length > 1;
 
   return (
-    <div {...swipeableHandlers} className="w-full">
+    <div {...swipeableHandlers}>
       {chapterIds.map((chapterId) => {
         return (
           <ChapterContent
