@@ -1,7 +1,7 @@
 "use client";
 
 import { useSignUpMutation } from "@/web/app/signup/use-signup-mutation";
-import { formHook } from "@/web/components/auth-form";
+import { ProviderSignInButton } from "@/web/components/auth/provider-signin";
 import { Alert, AlertDescription, AlertTitle } from "@/web/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
 import Link from "next/link";
@@ -20,10 +20,10 @@ export default function SignUpPage() {
 function SignUpPagePlain() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirectUrl");
-  const { mutate: signUp, error } = useSignUpMutation({
+  const redirectPath = searchParams.get("redirectUrl");
+  const { error } = useSignUpMutation({
     onSuccess: () => {
-      router.push(redirectUrl ?? "/page/1");
+      router.push(redirectPath ?? "/page/1");
     },
   });
   return (
@@ -49,14 +49,34 @@ function SignUpPagePlain() {
             </AlertDescription>
           </Alert>
         ) : null}
-        <SignUpForm
-          onSubmit={async (formData) => {
-            signUp(formData);
-          }}
-          submitText="Sign up"
-          submitLoadingText="Signing up..."
-          error={null}
-        />
+
+        <div className="w-full space-y-4">
+          <ProviderSignInButton provider="google" />
+
+          {/* <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-2 text-gray-500">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <AuthForm
+            onSubmit={async (formData) => {
+              signUp({
+                email: formData.email,
+                password: formData.password,
+                name: formData.name || "",
+              });
+            }}
+            submitText="Sign up"
+            showNameField={true}
+            showConfirmPasswordField={true}
+          /> */}
+        </div>
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
@@ -68,93 +88,5 @@ function SignUpPagePlain() {
         </div>
       </div>
     </div>
-  );
-}
-
-function SignUpForm(props: {
-  onSubmit: (formData: {
-    email: string;
-    password: string;
-    confirmPassword: string;
-    name: string;
-  }) => void;
-  submitText: string;
-  submitLoadingText: string;
-  error: Error | null;
-}) {
-  const appForm = formHook.useAppForm({
-    defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      name: "",
-    },
-    onSubmit: async ({ value }) => {
-      props.onSubmit(value);
-    },
-  });
-
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        appForm.handleSubmit();
-      }}
-      className="space-y-4 w-full"
-    >
-      <appForm.AppForm>
-        <appForm.AppField
-          name="name"
-          children={(field) => (
-            <field.TextField
-              label="Name"
-              placeholder="Al-Qaʿqāʿ ibn ʿAmr ibn Mālik Al-Tamīmī"
-            />
-          )}
-        />
-        <appForm.AppField
-          name="email"
-          validators={{
-            onChange: ({ value }) => {
-              if (!value) return "Email is required";
-            },
-          }}
-          children={(field) => (
-            <field.TextField type="email" label="Email" required />
-          )}
-        />
-        <appForm.AppField
-          name="password"
-          validators={{
-            onChange: ({ value }) => {
-              if (!value) return "Password is required";
-              if (value.length < 6) {
-                return "Password must be at least 6 characters";
-              }
-            },
-          }}
-          children={(field) => (
-            <field.TextField type="password" label="Password" required />
-          )}
-        />
-        <appForm.AppField
-          name="confirmPassword"
-          validators={{
-            onChange: ({ value }) => {
-              if (!value) return "Confirm password is required";
-            },
-          }}
-          children={(field) => (
-            <field.TextField
-              type="password"
-              label="Confirm Password"
-              required
-            />
-          )}
-        />
-        <appForm.SubmitButton label="Register" className="w-full" />
-      </appForm.AppForm>
-    </form>
   );
 }

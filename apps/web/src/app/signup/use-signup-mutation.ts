@@ -1,4 +1,4 @@
-import { authClient } from "@/web/lib/auth-client";
+import { signUpEmail } from "@/web/lib/auth-client";
 import { useMutation } from "@tanstack/react-query";
 
 export function useSignUpMutation(props: { onSuccess: () => void }) {
@@ -8,7 +8,7 @@ export function useSignUpMutation(props: { onSuccess: () => void }) {
       password: string;
       name: string;
     }) => {
-      await authClient.signUp.email({
+      await signUpEmail({
         email: formData.email,
         password: formData.password,
         name: formData.name,

@@ -1,9 +1,8 @@
 "use client";
 
-import { useSignInMutation } from "@/web/app/signin/use-signin-mutation";
-import { formHook } from "@/web/components/auth-form";
+import { ProviderSignInButton } from "@/web/components/auth/provider-signin";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 export default function SignInPage() {
@@ -16,14 +15,14 @@ export default function SignInPage() {
 }
 
 function SignInPagePlain() {
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirectUrl");
-  const router = useRouter();
-  const { mutate: signIn, error } = useSignInMutation({
-    onSuccess: () => {
-      router.push(redirectUrl ?? "/page/1");
-    },
-  });
+  // const searchParams = useSearchParams();
+  // const redirectPath = searchParams.get("redirectPath");
+  // const router = useRouter();
+  // const { mutate: signIn, error } = useSignInMutation({
+  //   onSuccess: () => {
+  //     router.push(redirectUrl ?? "/page/1");
+  //   },
+  // });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -37,17 +36,42 @@ function SignInPagePlain() {
           </p>
         </div>
 
-        <SignInForm
-          onSubmit={async (formData) => {
-            signIn({
-              email: formData.email,
-              password: formData.password,
-            });
-          }}
-          error={error}
-          submitLoadingText="Logging in..."
-          submitText="Login"
-        />
+        {/* {error ? (
+          <Alert variant="destructive">
+            <AlertCircleIcon className="w-4 h-4" />
+            <AlertTitle>Sign up failed</AlertTitle>
+            <AlertDescription>
+              Error: {error.message}. Please try again. If the issue persists,
+              please send an email to{" "}
+              <a href="mailto:joel.nh@gmail.com">joel.nh@gmail.com</a>.
+            </AlertDescription>
+          </Alert>
+        ) : null} */}
+
+        <div className="w-full space-y-4">
+          <ProviderSignInButton provider="google" />
+
+          {/* <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-gray-50 px-2 text-gray-500">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <AuthForm
+            onSubmit={async (formData) => {
+              signIn({
+                email: formData.email,
+                password: formData.password,
+              });
+            }}
+            submitText="Login"
+          /> */}
+        </div>
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
@@ -59,78 +83,5 @@ function SignInPagePlain() {
         </div>
       </div>
     </div>
-  );
-}
-
-function SignInForm(props: {
-  onSubmit: (formData: {
-    email: string;
-    password: string;
-    confirmPassword: string;
-    name: string;
-  }) => void;
-  submitText: string;
-  submitLoadingText: string;
-  error: Error | null;
-}) {
-  const appForm = formHook.useAppForm({
-    defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      name: "",
-    },
-    onSubmit: async ({ value }) => {
-      props.onSubmit(value);
-    },
-  });
-
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        appForm.handleSubmit();
-      }}
-      className="space-y-4 w-full"
-    >
-      <appForm.AppForm>
-        <appForm.AppField
-          name="name"
-          children={(field) => (
-            <field.TextField
-              label="Name"
-              placeholder="Al-Qaʿqāʿ ibn ʿAmr ibn Mālik Al-Tamīmī"
-            />
-          )}
-        />
-        <appForm.AppField
-          name="email"
-          validators={{
-            onChange: ({ value }) => {
-              if (!value) return "Email is required";
-            },
-          }}
-          children={(field) => (
-            <field.TextField type="email" label="Email" required />
-          )}
-        />
-        <appForm.AppField
-          name="password"
-          validators={{
-            onChange: ({ value }) => {
-              if (!value) return "Password is required";
-              if (value.length < 6) {
-                return "Password must be at least 6 characters";
-              }
-            },
-          }}
-          children={(field) => (
-            <field.TextField type="password" label="Password" required />
-          )}
-        />
-        <appForm.SubmitButton label="Sign in" className="w-full" />
-      </appForm.AppForm>
-    </form>
   );
 }
