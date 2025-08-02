@@ -4,10 +4,9 @@ import { useSearchParams } from "next/navigation";
 
 export function ProviderSignInButton({ provider }: { provider: "google" }) {
   const searchParams = useSearchParams();
-  const redirectPath = searchParams.get("redirectPath");
-  const currentOrigin = window.location.origin;
-  const callbackURL = `${currentOrigin}${redirectPath}`;
-  console.log("🚀 ~ ProviderSignInButton ~ callbackURL:", callbackURL);
+  const redirectPath = searchParams.get("redirectPath") ?? "/page/1";
+  const clientBaseUrl = process.env.NEXT_PUBLIC_CLIENT_BASE_URL;
+  const callbackURL = `${clientBaseUrl}${redirectPath}`;
 
   const handleGoogleSignIn = async () => {
     await signInWithProvider({
