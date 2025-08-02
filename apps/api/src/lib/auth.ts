@@ -9,12 +9,17 @@ export const auth = betterAuth({
     connectionString: process.env.DATABASE_URL,
   }),
   emailAndPassword: {
-    enabled: true,
+    enabled: false, // TODO: re-enable once email service is setup
   },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
     },
   },
   trustedOrigins: process.env.ALLOWED_ORIGINS?.split(",") || [],
